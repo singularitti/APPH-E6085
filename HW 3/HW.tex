@@ -1,0 +1,134 @@
+% !TEX program = xelatex
+% !TEX encoding = UTF-8
+% !BIB program = bibtex
+% !TEX spellcheck = en_US
+\documentclass[12pt]{article}
+\usepackage{url}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{subfigure}
+\graphicspath{{images/}}
+\usepackage{fancyhdr}
+\usepackage{enumerate}
+\usepackage[letterpaper, margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{newpxtext,newpxmath}
+\usepackage{siunitx}
+\usepackage{hyperref}
+\usepackage{bm}
+\usepackage{braket}
+\usepackage[version=4]{mhchem}
+\usepackage[yyyymmdd,hhmmss]{datetime}  % Insert "Compiled on ..."
+\usepackage[symbol]{footmisc}  % footnote symbol
+
+\sisetup{inter-unit-product = \ensuremath{{}\cdot{}}}
+\DeclareTextCommand{\nobreakspace}{T1}{\leavevmode\nobreak\ }
+
+\title{Hydrogen, Helium, and \ce{H2} within DFT}		% Title
+\author{}								% Author
+\date{}											% Date
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\theauthor}
+\lhead{\thetitle}
+\lfoot{Last compiled on {\ddmmyyyydate\today} at \currenttime}
+\rfoot{\thepage}
+
+
+\newcommand*{\rmn}[1]{\romannumeral#1}
+\newcommand*{\RMN}[1]{\uppercase\expandafter{\romannumeral#1}}
+\newcommand*{\tran}{^{\mkern-1.5mu\mathsf{T}}}
+\renewcommand{\thefootnote}{\fnsymbol{footnote}}
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Problem \RMN{1}}
+\begin{enumerate}[(a)]
+	\item First only consider $\varepsilon_{\text{xc}}=\varepsilon_{\text{x}}
+	      =-\frac{3}{4} \big( \frac{3}{\pi} \big)^{\frac{1}{3}} n^{ \frac{1}{3} }$,
+	      thus $v_{\text{xc}} = - \big( \frac{3}{\pi} \big)^{\frac{1}{3}}%
+	      n^{\frac{1}{3}}$.
+	      Then Kohn--Sham equation is simply
+	      \begin{equation}
+	      	\bigg[- \frac{1}{2} \nabla^2 - \frac{1}{r} +
+	      	\int \frac{n(\bm{r}')}{\lvert \bm{r} - \bm{r}' \rvert} \, d\bm{r}'
+	      	- \Big( \frac{3}{\pi}\Big)^{\frac{1}{3}} n^{\frac{1}{3}}(\bm{r})
+	      	\bigg]
+	      	\psi(\bm{r}) = \varepsilon \psi(\bm{r}),
+	      \end{equation}
+	      where $\psi(\bm{r}) = \sum_{i} \phi_i(r)$
+	      and for hydrogen atom, $n(\bm{r}) = \psi^\ast(\bm{r}) \psi(\bm{r})$.
+	      Left multiplied by $\phi_i^\ast(\bm{r})$ and integrate, we have
+	      \begin{equation}
+	      	\Braket{\phi_i |
+	      		- \frac{1}{2} \nabla^2 - \frac{1}{r} +
+	      		\int \frac{n(\bm{r}')}{\lvert \bm{r} - \bm{r}' \rvert} \, d\bm{r}'
+	      		- \Big( \frac{3}{\pi}\Big)^{\frac{1}{3}} n^{\frac{1}{3}}(\bm{r})
+	      		| \psi } = \varepsilon \braket{\phi_i | \psi}.
+	      \end{equation}
+	      So the eigenvalue problem is
+	      \begin{equation}
+	      	\det (H_{ij} + K_{ij} + N_{ij} - E S_{ij}) = 0,
+	      \end{equation}
+	      where $H_{ij} = \braket{\phi_i | - \frac{1}{2}\nabla^2 - \frac{1}{r} | \phi_j}$, $S_{ij} =
+	      \braket{\phi_i | \phi_j}$,
+	      \begin{equation}
+	      	K_{ij} = 4\pi \int r^2 \, d r \phi_i^\ast ( \bm{r} )
+	      	\Big(  \sum_{m, n} c_m c_n
+	      	\int  \frac{ \phi_m^\ast  \phi_n^\ast }{ \lvert \bm{r} - \bm{r}' \rvert }\, d \bm{r}' \Big)
+	      	\phi_j ( \bm{r} )
+	      \end{equation}
+	      and
+	      \begin{equation}
+	      	N_{ij} = - \Big( \frac{3}{\pi}\Big)^{\frac{1}{3}}
+	      	\braket{\phi_{i} (\bm{r}) |
+	      		n^{\frac{1}{3}}(\bm{r})
+	      		| \phi_{j} (\bm{r})}
+	      	= -4\pi\Big( \frac{3}{\pi}\Big)^{\frac{1}{3}}
+	      	\int r^2 \, d r \phi_{i}^\ast
+	      	\Big(\sum_{m, n} c_m c_n  \phi_{m}^\ast  \phi_{n} \Big)^{\frac{1}{3}}
+	      	\phi_{j}.
+	      \end{equation}
+	      Total energy
+	      \begin{equation}
+	      	E_{\text{total}} = E -
+	      	\int \frac{n(\bm{r}')n(\bm{r})}{\lvert \bm{r} - \bm{r}' \rvert} \, d\bm{r}'\, d\bm{r} +
+	      	\int n(\bm{r}) \varepsilon_{\text{x}}\, d\bm{r} -
+	      	\int n(\bm{r}) v_{\text{x}} \, d\bm{r}.
+	      \end{equation}
+
+
+
+
+
+
+	      %	      Now consider $\varepsilon_{\text{xc}}=\varepsilon_{\text{x}} + \varepsilon_{\text{c}}$. Then Kohn--Sham equation is
+	      %	      \begin{equation}
+	      %	      	\bigg[- \frac{1}{2} \nabla^2 - \frac{1}{r} +
+	      %	      	\int \frac{n(\bm{r}')}{\lvert \bm{r} - \bm{r}' \rvert} \, d\bm{r}'
+	      %	      	- \frac{3}{4}\Big( \frac{3}{\pi}\Big)^{\frac{1}{3}} n^{\frac{1}{3}}(\bm{r})
+	      %	      	- v_{\text{c}} \bigg]
+	      %	      	\psi(\bm{r}) = \varepsilon \psi(\bm{r}),
+	      %	      \end{equation}
+	      %
+	      %	      \begin{equation}
+	      %	      	v_c =
+	      %	      	\begin{cases}
+	      %	      		\frac{\gamma}{1+
+	      %	      		\beta_1 \big( \frac{3}{4\pi n(\bm{r})} \big)^{1/6} +
+	      %	      		\beta_2 \big( \frac{3}{4\pi n(\bm{r})} \big)^{\frac{1}{3}}}\thinspace,
+	      %	      		  & n(\bm{r}) \leq \frac{3}{4\pi}, \\
+	      %	      		\frac{1}{3} A \log\big( \frac{3}{4\pi n(\bm{r})} \big) +
+	      %	      		B +\frac{1}{3} \big( \frac{3}{4\pi n(\bm{r})} \big)^{\frac{1}{3}} C\log\big( \frac{3}{4\pi n(\bm{r})} \big)+
+	      %	      		\big( \frac{3}{4\pi n(\bm{r})} \big)^{\frac{1}{3}} D,
+	      %	      		  & n(\bm{r}) > \frac{3}{4\pi}.
+	      %	      	\end{cases}
+	      %	      \end{equation}
+
+\end{enumerate}
+
+
+\end{document}
