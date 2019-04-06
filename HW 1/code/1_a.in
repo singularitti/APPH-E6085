@@ -1,0 +1,42 @@
+# Problem 1-a
+# created at Jan 2, 2017 00:21
+# created by qz2280@columbia.edu
+
+# ndtset 12  udtset 6 1
+
+#Definition of the unit cell
+acell 4.615 4.615 18.897    # The keyword "acell" refers to the
+                            # lengths of the primitive vectors (in Bohr)
+rprim  0.86602540378  0.5  0.0
+       0.86602540378  -0.5  0.0
+       0.0            0.0  1.0
+
+#Definition of the atom types
+ntypat 1          # There is only one type of atom
+znucl 6           # The keyword "znucl" refers to the atomic number of the
+                  # possible type(s) of atom. The pseudopotential(s)
+                  # mentioned in the "files" file must correspond
+                  # to the type(s) of atom. Here, the only type is Carbon.
+
+#Definition of the atoms
+natom 2           # There are two atoms
+typat 1 1         # They both are of type 1, that is, Carbon
+xcart             # This keyword indicates that the location of the atoms
+                  # will follow, one triplet of number for each atom
+  0.0 0.0 0.0    # Triplet giving the cartesian coordinates of atom 1, in Bohr
+  0.577 0.0 0.0    # Triplet giving the cartesian coordinates of atom 2, in Bohr
+
+#Definition of the planewave basis set
+ecut 250.0         # Maximal plane-wave kinetic energy cut-off, in Hartree
+
+#Definition of the k-point grid
+kptopt 3          # Enter the k points manually
+nshiftk 1
+shiftk 0.0 0.0 0.0
+ngkpt 10 10 1
+
+#Definition of the SCF procedure
+toldfe 1.0d-6     # Will stop when, twice in a row, the difference
+                  # between two consecutive evaluations of total energy
+                  # differ by less than toldfe (in Hartree)
+                  # This value is way too large for most realistic studies of materials
