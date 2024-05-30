@@ -24,9 +24,9 @@
 \sisetup{inter-unit-product = \ensuremath{{}\cdot{}}}
 \DeclareTextCommand{\nobreakspace}{T1}{\leavevmode\nobreak\ }
 
-\title{Hydrogen, Helium, and \ce{H2} within DFT}		% Title
-\author{}								% Author
-\date{}											% Date
+\title{Hydrogen, Helium, and \ce{H2} within DFT}
+\author{}
+\date{}
 
 \pagestyle{fancy}
 \fancyhf{}
@@ -48,13 +48,14 @@
 \section{Problem \RMN{1}}
 \begin{enumerate}[(a)]
     \item First only consider $\varepsilon_{\text{xc}}=\varepsilon_{\text{x}}
-          =-\frac{3}{4} \big( \frac{3}{\pi} \big)^{\frac{1}{3}} n^{ \frac{1}{3} }$,
+              =-\frac{3}{4} \big( \frac{3}{\pi} \big)^{\frac{1}{3}} n^{ \frac{1}{3} }$,
           thus $v_{\text{xc}} = - \big( \frac{3}{\pi} \big)^{\frac{1}{3}}%
-          n^{\frac{1}{3}}$.
+              n^{\frac{1}{3}}$.
           Then Kohn--Sham equation is simply
           \begin{equation}
               \bigg[- \frac{1}{2} \nabla^2 - \frac{1}{r} +
-              \int \frac{n(\bm{r}')}{\lvert \bm{r} - \bm{r}' \rvert} \, d\bm{r}'
+              \int \frac{n
+                  (\bm{r}')}{\lvert \bm{r} - \bm{r}' \rvert} \, d\bm{r}'
               - \Big( \frac{3}{\pi}\Big)^{\frac{1}{3}} n^{\frac{1}{3}}(\bm{r})
               \bigg]
               \psi(\bm{r}) = \varepsilon \psi(\bm{r}),
@@ -64,17 +65,17 @@
           Left multiplied by $\phi_i^\ast(\bm{r})$ and integrate, we have
           \begin{equation}
               \Braket{\phi_i |
-                  - \frac{1}{2} \nabla^2 - \frac{1}{r} +
-                  \int \frac{n(\bm{r}')}{\lvert \bm{r} - \bm{r}' \rvert} \, d\bm{r}'
-                  - \Big( \frac{3}{\pi}\Big)^{\frac{1}{3}} n^{\frac{1}{3}}(\bm{r})
-                  | \psi } = \varepsilon \braket{\phi_i | \psi}.
+              - \frac{1}{2} \nabla^2 - \frac{1}{r} +
+              \int \frac{n(\bm{r}')}{\lvert \bm{r} - \bm{r}' \rvert} \, d\bm{r}'
+              - \Big( \frac{3}{\pi}\Big)^{\frac{1}{3}} n^{\frac{1}{3}}(\bm{r})
+              | \psi } = \varepsilon \braket{\phi_i | \psi}.
           \end{equation}
           So the eigenvalue problem is
           \begin{equation}
               \det (H_{ij} + K_{ij} + N_{ij} - E S_{ij}) = 0,
           \end{equation}
           where $H_{ij} = \braket{\phi_i | - \frac{1}{2}\nabla^2 - \frac{1}{r} | \phi_j}$, $S_{ij} =
-          \braket{\phi_i | \phi_j}$,
+              \braket{\phi_i | \phi_j}$,
           \begin{equation}
               K_{ij} = 4\pi \int r^2 \, d r \phi_i^\ast ( \bm{r} )
               \Big(  \sum_{m, n} c_m c_n
@@ -100,34 +101,28 @@
               \int n(\bm{r}) v_{\text{x}} \, d\bm{r}.
           \end{equation}
 
-
-
-
-
-
-          %	      Now consider $\varepsilon_{\text{xc}}=\varepsilon_{\text{x}} + \varepsilon_{\text{c}}$. Then Kohn--Sham equation is
-          %	      \begin{equation}
-          %	      	\bigg[- \frac{1}{2} \nabla^2 - \frac{1}{r} +
-          %	      	\int \frac{n(\bm{r}')}{\lvert \bm{r} - \bm{r}' \rvert} \, d\bm{r}'
-          %	      	- \frac{3}{4}\Big( \frac{3}{\pi}\Big)^{\frac{1}{3}} n^{\frac{1}{3}}(\bm{r})
-          %	      	- v_{\text{c}} \bigg]
-          %	      	\psi(\bm{r}) = \varepsilon \psi(\bm{r}),
-          %	      \end{equation}
+          %       Now consider $\varepsilon_{\text{xc}}=\varepsilon_{\text{x}} + \varepsilon_{\text{c}}$. Then Kohn--Sham equation is
+          %       \begin{equation}
+          %        \bigg[- \frac{1}{2} \nabla^2 - \frac{1}{r} +
+          %        \int \frac{n(\bm{r}')}{\lvert \bm{r} - \bm{r}' \rvert} \, d\bm{r}'
+          %        - \frac{3}{4}\Big( \frac{3}{\pi}\Big)^{\frac{1}{3}} n^{\frac{1}{3}}(\bm{r})
+          %        - v_{\text{c}} \bigg]
+          %        \psi(\bm{r}) = \varepsilon \psi(\bm{r}),
+          %       \end{equation}
           %
-          %	      \begin{equation}
-          %	      	v_c =
-          %	      	\begin{cases}
-          %	      		\frac{\gamma}{1+
-          %	      		\beta_1 \big( \frac{3}{4\pi n(\bm{r})} \big)^{1/6} +
-          %	      		\beta_2 \big( \frac{3}{4\pi n(\bm{r})} \big)^{\frac{1}{3}}}\thinspace,
-          %	      		  & n(\bm{r}) \leq \frac{3}{4\pi}, \\
-          %	      		\frac{1}{3} A \log\big( \frac{3}{4\pi n(\bm{r})} \big) +
-          %	      		B +\frac{1}{3} \big( \frac{3}{4\pi n(\bm{r})} \big)^{\frac{1}{3}} C\log\big( \frac{3}{4\pi n(\bm{r})} \big)+
-          %	      		\big( \frac{3}{4\pi n(\bm{r})} \big)^{\frac{1}{3}} D,
-          %	      		  & n(\bm{r}) > \frac{3}{4\pi}.
-          %	      	\end{cases}
-          %	      \end{equation}
-
+          %       \begin{equation}
+          %        v_c =
+          %        \begin{cases}
+          %         \frac{\gamma}{1+
+          %         \beta_1 \big( \frac{3}{4\pi n(\bm{r})} \big)^{1/6} +
+          %         \beta_2 \big( \frac{3}{4\pi n(\bm{r})} \big)^{\frac{1}{3}}}\thinspace,
+          %           & n(\bm{r}) \leq \frac{3}{4\pi}, \\
+          %         \frac{1}{3} A \log\big( \frac{3}{4\pi n(\bm{r})} \big) +
+          %         B +\frac{1}{3} \big( \frac{3}{4\pi n(\bm{r})} \big)^{\frac{1}{3}} C\log\big( \frac{3}{4\pi n(\bm{r})} \big)+
+          %         \big( \frac{3}{4\pi n(\bm{r})} \big)^{\frac{1}{3}} D,
+          %           & n(\bm{r}) > \frac{3}{4\pi}.
+          %        \end{cases}
+          %       \end{equation}
 \end{enumerate}
 
 
