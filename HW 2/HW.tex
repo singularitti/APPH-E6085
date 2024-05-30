@@ -14,10 +14,12 @@
 \usepackage{relsize}
 
 \usepackage{amsmath}
+\usepackage{amssymb}
 \usepackage{braket}
 \usepackage{enumerate}
 \usepackage[version=4]{mhchem}
 \usepackage{siunitx}
+\sisetup{inter-unit-product=\ensuremath{{}\cdot{}}}
 
 \usepackage[USenglish]{babel} % Regionalize hyphens, quote marks, etc automatically
 \usepackage[strict,autostyle]{csquotes} % Smart and nestable quote marks
@@ -26,9 +28,6 @@
 % and https://tex.stackexchange.com/a/425099
 \usepackage[math-style=ISO,bold-style=ISO]{unicode-math}
 \usepackage{kpfonts-otf}
-
-\sisetup{inter-unit-product=\ensuremath{{}\cdot{}}}
-\DeclareTextCommand{\nobreakspace}{T1}{\leavevmode\nobreak\ }
 
 \title{Solving \ce{He} and \ce{H2} within Hartree--Fock}
 \author{}
