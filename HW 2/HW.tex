@@ -5,14 +5,12 @@
 \documentclass[12pt]{article}
 
 \usepackage[letterpaper, margin=1in]{geometry}
-\usepackage{fancyhdr}
 
 \usepackage{graphicx}
 \graphicspath{{images/}}
 \usepackage{subfigure}
 
 \usepackage{hyperref}
-\usepackage[symbol]{footmisc}  % Footnote symbol
 \usepackage{relsize}
 
 \usepackage{amsmath}
@@ -36,24 +34,9 @@
 \author{}
 \date{}
 
-\makeatletter
-\let\thetitle\@title
-\let\theauthor\@author
-\let\thedate\@date
-\makeatother
-
-\renewcommand{\sectionmark}[1]{\markright{#1}}
-
-\pagestyle{fancy}
-\fancyhf{}
-\lhead{\fancyplain{}{\rightmark }}
-\cfoot{\thepage}
-\setlength\headheight{14.5pt}
-
 \newcommand*{\rmn}[1]{\romannumeral#1}
 \newcommand*{\RMN}[1]{\uppercase\expandafter{\romannumeral#1}}
 \newcommand*{\tran}{^{\mkern-1.5mu\mathsf{T}}}
-\renewcommand{\thefootnote}{\fnsymbol{footnote}}
 
 \begin{document}
 
