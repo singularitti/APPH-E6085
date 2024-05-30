@@ -1,4 +1,4 @@
-% !TEX program = xelatex
+% !TEX program = lualatex
 % !TEX encoding = UTF-8
 % !BIB program = bibtex
 % !TEX spellcheck = en_US
@@ -11,8 +11,6 @@
 \usepackage{fancyhdr}
 \usepackage{enumerate}
 \usepackage[letterpaper, margin=1in]{geometry}
-\usepackage[T1]{fontenc}
-\usepackage{newpxtext,newpxmath}
 \usepackage{siunitx}
 \usepackage{hyperref}
 \usepackage{bm}
@@ -21,8 +19,7 @@
 \usepackage[symbol]{footmisc}  % footnote symbol
 \usepackage{relsize}
 
-
-\sisetup{inter-unit-product = \ensuremath{{}\cdot{}}}
+\sisetup{inter-unit-product=\ensuremath{{}\cdot{}}}
 \DeclareTextCommand{\nobreakspace}{T1}{\leavevmode\nobreak\ }
 
 \title{Solving \ce{He} and \ce{H2} within Hartree--Fock}
@@ -50,485 +47,500 @@
 
 \begin{document}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \section{Problem \RMN{1}}
-\begin{enumerate}[(a)]
-    \item The Hamiltonian is $H = - \frac{1}{2} \nabla^2 -
-              \frac{1}{r}$\thinspace,
-          construct wave functions with $4$ bases,
-          \begin{equation}
-              \psi(\bm{r}) = \sum_{i} c_i \phi_i = c_1 e^{- 13.0 r^2} +
-              c_2 e^{- 1.96 r^2} + c_3 e^{- 0.44 r^2} + c_4 e^{-0.12 r^2}.
-          \end{equation}
-          where $c_i, i=1,2,3,4$ are real numbers.
-          Define functional
-          \begin{equation}
-              E[\psi] = \frac{\braket{\psi| H | \psi}}{\braket{\psi|\psi}},
-          \end{equation}
-          according to variational principle, the ground state energy $E$ satisfies
-          \begin{equation}
-              \det (H_{ij} - S_{ij} E) = 0,
-          \end{equation}
-          where $H_{ij} = \braket{\phi_i | H | \phi_j}$, $S_{ij} =
-              \braket{\phi_i | \phi_j}$.
-          Under spherical coordinates,
-          \begin{equation}
-              \begin{aligned}
-                  \nabla^2 & = \frac{1}{r} \frac{\partial^2}{\partial
-                      r^2} r
-                  - \frac{\bm{l}^2}{\hbar^2 r^2}                      \\
-                           & = \frac{1}{r} \frac{\partial^2}{\partial
-                      r^2}r+{\frac {1}{r^{2}\sin \theta }}{\frac {\partial
-                  }{\partial \theta }}\Big(\sin \theta {\frac {\partial
-                      }{\partial \theta }}\Big)+{\frac {1}{r^{2}\sin
-                      ^{2}\theta }}{\frac {\partial^{2}}{\partial \varphi
-                      ^{2}}} \thinspace,
-              \end{aligned}
-          \end{equation}
-          here every $\phi(r)$ does not contain $\theta$ and $\varphi$,
-          so the Laplacian reduces to
-          \begin{equation}
-              \nabla^2 = \frac{1}{r} \frac{\partial^2}{\partial r^2} r.
-          \end{equation}
-          So
-          \begin{equation}
-              \begin{aligned}
-                  \braket{\phi_i | H | \phi_j} & =
-                  \int \phi_i^\ast H \phi_j \, d\bm{r} \\
-                                               & =
-                  4\pi\int_{0}^{\infty} \frac{-1 + 3 \alpha_j r - 2 \alpha_j^2 r^3}{r}
-                  e^{-(\alpha_i + \alpha_j)r^2}
-                  r^2\, dr.
-              \end{aligned}
-          \end{equation}
-          Therefore
-          \begin{equation}
-              H =
-              \begin{pmatrix}
-                  0.577368  & 0.0717194 & -0.323206 & -0.437105 \\
-                  0.0717194 & 0.506469  & -1.00354  & -2.39107  \\
-                  -0.323206 & -1.00354  & -2.68809  & -7.46151  \\
-                  -0.437105 & -2.39107  & -7.46151  & -17.6552
-              \end{pmatrix},
-          \end{equation}
-          and
-          \begin{equation}
-              S =
-              \begin{pmatrix}
-                  0.0420015 & 0.0962338 & 0.113012 & 0.117172 \\
-                  0.0962338 & 0.717457  & 1.49764  & 1.85622  \\
-                  0.113012  & 1.49764   & 6.74529  & 13.2875  \\
-                  0.117172  & 1.85622   & 13.2875  & 47.3596
-              \end{pmatrix}.
-          \end{equation}
-          Then solve for different set of eigenvalues, we derive Tab. \ref{tab:1-a}.
-          \begin{table}[h]
-              \centering
-              \caption{Ground state energy as a function of $n$.}
-              \begin{tabular}{|c|c|}
-                  \hline
-                  Basis set                                     & Energy (in Hartree) \\
-                  \hline
-                  $\{ \alpha_1\}$                               & $13.74637261$       \\
-                  \hline
-                  $\{ \alpha_1, \alpha_2\}$                     & $0.705886690023$    \\
-                  \hline
-                  $\{ \alpha_1, \alpha_2, \alpha_3\}$           & $-0.434106467896$   \\
-                  \hline
-                  $\{ \alpha_1, \alpha_2, \alpha_3, \alpha_4\}$ & $-0.499276143413$   \\
-                  \hline
-              \end{tabular}%
-              \label{tab:1-a}%
-          \end{table}%
-          Since exact value is $\SI{-13.6}{\electronvolt} \approx \SI{-0.5}{\hartree}$, so the result of
-          $4$ bases is very close to it, but not with less bases. See Fig. \ref{fig:pro1a} for reference.
-          \begin{figure}[h]
-              \centering
-              \includegraphics[width=0.5\linewidth]{pro_1_a.pdf}
-              \caption{Ground state energy as a function of $n$.}
-              \label{fig:pro1a}
-          \end{figure}
-    \item For the energy of the first excited state (ie. second lowest Eigenvalue)
-          as a function of $n$, see Tab. \ref{tab:1-b} and Fig. \ref{fig:pro1b} for reference. Again, the exact value
-          is $\SI{-3.4}{\electronvolt} \approx \SI{-0.125}{\hartree}$. Now this time even with $4$ bases,
-          the energy is still far from exact value.
-          \begin{table}[h]
-              \centering
-              \caption{Energy of the first excited state as a function of $n$.}
-              \begin{tabular}{|c|c|}
-                  \hline
-                  Basis set                                     & Energy (in Hartree) \\
-                  \hline
-                  $\{ \alpha_1, \alpha_2\}$                     & $19.497200032$      \\
-                  \hline
-                  $\{ \alpha_1, \alpha_2, \alpha_3\}$           & $2.15401296835$     \\
-                  \hline
-                  $\{ \alpha_1, \alpha_2, \alpha_3, \alpha_4\}$ & $0.106674417746$    \\
-                  \hline
-              \end{tabular}%
-              \label{tab:1-b}%
-          \end{table}%
-          \begin{figure}[h]
-              \centering
-              \includegraphics[width=0.5\linewidth]{pro_1_b.pdf}
-              \caption{Energy of the first excited state as a function of $n$.}
-              \label{fig:pro1b}
-          \end{figure}
-    \item By solving eigenvalue problem we derive coefficients, that is,
-          $\begin{pmatrix}
-                  c_1 & c_2 & c_3 & c_4
-              \end{pmatrix}\tran$. The exact ground state is\footnote{Griffith page $138$.}
-          \begin{equation}
-              \psi_{\text{exact}}(\bm{r}) = \frac{1}{\sqrt{\pi}} e^{-r}.  % This function is normalized.
-          \end{equation}
-          Then plot as Fig. \ref{fig:pro1c}.
-          \begin{figure}[h]
-              \centering
-              \includegraphics[width=0.5\linewidth]{pro_1_c.pdf}
-              \caption{Ground state eigenfunction as a function of $n$.}
-              \label{fig:pro1c}
-          \end{figure}
-          From here we can see the wave function with $4$ bases is very close to exact value except $r \approx 0$, but
-          wave functions with less bases are far from exact value.
-\end{enumerate}
+
+\subsection*{(a)}
+
+The Hamiltonian is $H = - \frac{1}{2} \nabla^2 -
+    \frac{1}{r}$\thinspace,
+construct wave functions with $4$ bases,
+\begin{equation}
+    \psi(\bm{r}) = \sum_{i} c_i \phi_i = c_1 e^{- 13.0 r^2} +
+    c_2 e^{- 1.96 r^2} + c_3 e^{- 0.44 r^2} + c_4 e^{-0.12 r^2}.
+\end{equation}
+where $c_i, i=1,2,3,4$ are real numbers.
+Define functional
+\begin{equation}
+    E[\psi] = \frac{\braket{\psi| H | \psi}}{\braket{\psi|\psi}},
+\end{equation}
+according to variational principle, the ground state energy $E$ satisfies
+\begin{equation}
+    \det (H_{ij} - S_{ij} E) = 0,
+\end{equation}
+where $H_{ij} = \braket{\phi_i | H | \phi_j}$, $S_{ij} =
+    \braket{\phi_i | \phi_j}$.
+Under spherical coordinates,
+\begin{equation}
+    \begin{aligned}
+        \nabla^2 & = \frac{1}{r} \frac{\partial^2}{\partial r^2} r - \frac{\bm{l}^2}{\hbar^2 r^2} \\
+                 & = \frac{1}{r} \frac{\partial^2}{\partial
+            r^2}r+{\frac{1}{r^{2}\sin \theta }}{\frac{\partial
+        }{\partial \theta }}\Big(\sin \theta {\frac{\partial
+            }{\partial \theta }}\Big)+{\frac{1}{r^{2}\sin^{2}\theta }}{\frac{\partial^{2}}{\partial \varphi^{2}}} \thinspace,
+    \end{aligned}
+\end{equation}
+here every $\phi(r)$ does not contain $\theta$ and $\varphi$,
+so the Laplacian reduces to
+\begin{equation}
+    \nabla^2 = \frac{1}{r} \frac{\partial^2}{\partial r^2} r.
+\end{equation}
+So
+\begin{equation}
+    \begin{aligned}
+        \braket{\phi_i | H | \phi_j} & =
+        \int \phi_i^\ast H \phi_j \, d\bm{r} \\
+                                     & =
+        4\pi\int_{0}^{\infty} \frac{-1 + 3 \alpha_j r - 2 \alpha_j^2 r^3}{r}
+        e^{-(\alpha_i + \alpha_j)r^2}
+        r^2\, dr.
+    \end{aligned}
+\end{equation}
+Therefore
+\begin{equation}
+    H =
+    \begin{pmatrix}
+        0.577368  & 0.0717194 & -0.323206 & -0.437105 \\
+        0.0717194 & 0.506469  & -1.00354  & -2.39107  \\
+        -0.323206 & -1.00354  & -2.68809  & -7.46151  \\
+        -0.437105 & -2.39107  & -7.46151  & -17.6552
+    \end{pmatrix},
+\end{equation}
+and
+\begin{equation}
+    S =
+    \begin{pmatrix}
+        0.0420015 & 0.0962338 & 0.113012 & 0.117172 \\
+        0.0962338 & 0.717457  & 1.49764  & 1.85622  \\
+        0.113012  & 1.49764   & 6.74529  & 13.2875  \\
+        0.117172  & 1.85622   & 13.2875  & 47.3596
+    \end{pmatrix}.
+\end{equation}
+Then solve for different set of eigenvalues, we derive Tab. \ref{tab:1-a}.
+\begin{table}[h]
+    \centering
+    \caption{Ground state energy as a function of $n$.}
+    \begin{tabular}{|c|c|}
+        \hline
+        Basis set                                     & Energy (in Hartree) \\
+        \hline
+        $\{ \alpha_1\}$                               & $13.74637261$       \\
+        \hline
+        $\{ \alpha_1, \alpha_2\}$                     & $0.705886690023$    \\
+        \hline
+        $\{ \alpha_1, \alpha_2, \alpha_3\}$           & $-0.434106467896$   \\
+        \hline
+        $\{ \alpha_1, \alpha_2, \alpha_3, \alpha_4\}$ & $-0.499276143413$   \\
+        \hline
+    \end{tabular}
+    \label{tab:1-a}
+\end{table}
+
+Since exact value is $\SI{-13.6}{\electronvolt} \approx \SI{-0.5}{\hartree}$, so the result of
+$4$ bases is very close to it, but not with less bases. See Fig. \ref{fig:pro1a} for reference.
+
+% \begin{figure}[h]
+%     \centering
+%     \includegraphics[width=0.5\linewidth]{pro_1_a}
+%     \caption{Ground state energy as a function of $n$.}
+%     \label{fig:pro1a}
+% \end{figure}
+
+\subsection*{(b)}
+
+For the energy of the first excited state (ie. second lowest Eigenvalue)
+as a function of $n$, see Tab. \ref{tab:1-b} and Fig. \ref{fig:pro1b} for reference. Again, the exact value
+is $\SI{-3.4}{\electronvolt} \approx \SI{-0.125}{\hartree}$. Now this time even with $4$ bases,
+the energy is still far from exact value.
+\begin{table}[h]
+    \centering
+    \caption{Energy of the first excited state as a function of $n$.}
+    \begin{tabular}{|c|c|}
+        \hline
+        Basis set                                     & Energy (in Hartree) \\
+        \hline
+        $\{ \alpha_1, \alpha_2\}$                     & $19.497200032$      \\
+        \hline
+        $\{ \alpha_1, \alpha_2, \alpha_3\}$           & $2.15401296835$     \\
+        \hline
+        $\{ \alpha_1, \alpha_2, \alpha_3, \alpha_4\}$ & $0.106674417746$    \\
+        \hline
+    \end{tabular}
+    \label{tab:1-b}
+\end{table}
+
+% \begin{figure}[h]
+%     \centering
+%     \includegraphics[width=0.5\linewidth]{pro_1_b}
+%     \caption{Energy of the first excited state as a function of $n$.}
+%     \label{fig:pro1b}
+% \end{figure}
+
+\subsection*{(c)}
+
+By solving eigenvalue problem we derive coefficients, that is,
+$\begin{pmatrix}
+        c_1 & c_2 & c_3 & c_4
+    \end{pmatrix}\tran$. The exact ground state is\footnote{Griffith page $138$.}
+\begin{equation}
+    \psi_{\text{exact}}(\bm{r}) = \frac{1}{\sqrt{\pi}} e^{-r}.  % This function is normalized.
+\end{equation}
+Then plot as Fig. \ref{fig:pro1c}.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\linewidth]{pro_1_c}
+    \caption{Ground state eigenfunction as a function of $n$.}
+    \label{fig:pro1c}
+\end{figure}
+From here we can see the wave function with $4$ bases is very close to exact value except $r \approx 0$, but
+wave functions with less bases are far from exact value.
+
 
 \section{Problem \RMN{2}}
-\begin{enumerate}[(a)]
-    \item Set Hamiltonian to be $H = - \frac{1}{2}\nabla_1^2 - \frac{2}{r_1} - \frac{1}{2}\nabla_2^2 - \frac{2}{r_2}$, then
-          the Schr\"{o}dinger equation is turned into $2$ single-electron equations, \textit{id est},
-          \begin{equation}
-              \Big(- \frac{1}{2}\nabla^2 - \frac{2}{r} \Big) \psi(\bm{r}) = E \psi(\bm{r}).
-          \end{equation}
-          Construct single-electron wave function with $4$ bases,
-          \begin{equation}
-              \psi(\bm{r}) = \sum_{i} c_i \phi_i = c_1 e^{- 0.298073 r^2} +
-              c_2 e^{- 1.242567 r^2} + c_3 e^{- 5.782948 r^2} + c_4 e^{-38.474970 r^2}.
-          \end{equation}
-          where $c_i, i=1,2,3,4$, are real numbers.
-          Now the ground state energy is \SI{-1.99426616}{\electronvolt}.
-          The density is
-          \begin{equation}\label{eq:density}
-              \lvert \psi(\bm{r}) \rvert^2= \psi^\ast(\bm{r}) \psi(\bm{r}) =
-              \sum_{i, j} c_i^\ast c_j \phi_i^\ast(\bm{r}) \phi_j(\bm{r}),
-          \end{equation}
-          where $i, j=1,2,3,4$.
-          The radial probability distribution is
-          \begin{equation}
-              \lvert \chi(\bm{r}) \rvert^2= r^2\int \lvert \psi(\bm{r}) \rvert^2
-              \, d\Omega = 4\pi r^2 \lvert \psi(\bm{r}) \rvert^2.
-          \end{equation}
-          And, the exact value of single-electron wave function is
-          \begin{equation}
-              \psi_{\text{exact}}(\bm{r}) = \sqrt{\frac{8}{\pi}} e^{-2 r},  % This function is normalized.
-          \end{equation}
-          since the total wave function is
-          $\Psi_{\text{exact}}(\bm{r}_1, \bm{r}_2) = \frac{8}{\pi}
-              e^{-2(r_1 + r_2)}$, see Griffith page $187$ \footnote{Here
-              Griffith only considered Hartree method but not
-              Hartree--Fock method, so we don't need to construct an
-              antisymmetric all-electron wave function.}.
-          Then we can plot the density and radial probability distribution as a function of $r$
-          as Fig.  \ref{fig:2-a:mini:subfig:a} and Fig. \ref{fig:2-a:mini:subfig:b}, respectively.
-          \begin{figure}[h]
-              \subfigure[Density as a function of $r$.]{
-                  \label{fig:2-a:mini:subfig:a}   %% label for first subfigure
-                  \begin{minipage}[b]{0.5\textwidth}
-                      \centering
-                      \includegraphics[width=\linewidth]{pro_2_a_1.pdf}
-                  \end{minipage}}
-              \hfill
-              \subfigure[Radial probability distribution as a function of $r$.]{
-                  \label{fig:2-a:mini:subfig:b}   %% label for second subfigure
-                  \begin{minipage}[b]{0.5\textwidth}
-                      \centering
-                      \includegraphics[width=\linewidth]{pro_2_a_2.pdf}
-                  \end{minipage}}
-              \caption{Problem $2(a)$.}
-              \label{fig:2-a}   %% label for entire figure
-          \end{figure}
-    \item Now consider the single-electron
-          Schr\"{o}dinger equation of $\psi_1(\bm{r}_1)$ will be
-          \begin{equation}
-              \Big(- \frac{1}{2}\nabla_1^2 - \frac{2}{r_1}
-              + \int \frac{\psi_2^\ast(\bm{r}_2)\psi_2(\bm{r}_2)}{\lvert \bm{r}_1 -
-                  \bm{r}_2 \rvert} d\bm{r}_2 \Big) \psi_1(\bm{r}_1) = E \psi_1 (\bm{r}_1),
-          \end{equation}
-          with $\psi_2(\bm{r}_2) = 0.08704173 e^{-0.298073 r^2}
-              + 0.52509737 e^{-1.242567 r^2}
-              + 0.51920929 e^{-5.782948 r^2}
-              + 0.31233737 e^{-38.474970 r^2}$ as trial function (last question result),
-          and
-          \begin{equation}
-              \begin{aligned}
-                  \int \frac{\psi_2^\ast(\bm{r}_2)\psi_2(\bm{r}_2)}{\lvert \bm{r}_1 -
-                      \bm{r}_2 \rvert} d\bm{r}_2
-                   & = \sum_{i, j}
-                  c_i^\ast c_j
-                  \int
-                  \frac{\phi_i^\ast(r_2) \phi_j(r_2)}{\lvert \bm{r}_1 - \bm{r}_2 \rvert}
-                  \, d\bm{r}_2     \\
-                   & = \sum_{i, j}
-                  2\pi c_i^\ast c_j
-                  \int_{0}^{\infty} \int_{0}^{\pi}
-                  \tfrac{\phi_i^\ast(r_2) \phi_j(r_2)}{\sqrt{r_1^2 + r_2^2 - 2 r_1 r_2
-                          \cos\theta}}
-                  r_2^2 \sin \theta \, d\theta \, dr_2.
-              \end{aligned}
-          \end{equation}
-          Left multiplied by $\bra{\phi_i(\bm{r}_1)}$ and integrate, we have
-          \begin{equation}
-              \begin{aligned}
-                  \Braket{ \phi_i(\bm{r}_1) | - \frac{1}{2}\nabla_1^2 -
-                      \frac{2}{r_1} | \psi_1(\bm{r}_1) } +
-                  \Braket{\phi_i(\bm{r}_1) |
-                      \int \frac{\psi_2^\ast(\bm{r}_2)\psi_2(\bm{r}_2)}{\lvert
-                          \bm{r}_1 - \bm{r}_2 \rvert} d\bm{r}_2 | \psi_1(\bm{r}_1)}
-                  = E \braket{\phi_i(\bm{r}_1) |
-                      \psi_1(\bm{r}_1)}.
-              \end{aligned}
-          \end{equation}
-          The eigenvalue problem will be
-          \begin{equation}
-              \det (H_{ij} - S_{ij} E + K_{ij}) = 0,
-          \end{equation}
-          here $H_{ij} = \braket{\phi_i | - \frac{1}{2}\nabla_1^2 - \frac{2}{r_1} | \phi_j}$, $S_{ij} =
-              \braket{\phi_i | \phi_j}$, and
-          \begin{equation}
-              K_{ij} = \sum_{m, n} 8\pi^2 c_m^\ast c_n
-              \int_{0}^{\infty} r_1^2  \, dr_1
-              \int_{0}^{\infty} r_2^2 \, dr_2
-              \int_{0}^{\pi}
-              \tfrac{\phi_i^\ast(r_1) \phi_m^\ast(r_2) \phi_n(r_2)\phi_j(r_1)}{%
-                  \sqrt{r_1^2 + r_2^2 - 2 r_1 r_2 \cos\theta}} \sin\theta \, d\theta.
-          \end{equation}
-          Derive new set of $\{ c_1, c_2, c_3, c_4\}$, let $\psi_1(\bm{r}_1) =
-              \sum_{i=1}^{4} c_i \phi_i(\bm{r}_1)$, and substitute
-          into
-          \begin{equation}
-              \Big(- \frac{1}{2}\nabla_2^2 - \frac{2}{r_2}
-              + \int \frac{\psi_1^\ast(\bm{r}_1)\psi_1(\bm{r}_1)}{\lvert \bm{r}_1 -
-                  \bm{r}_2 \rvert} d\bm{r}_1 \Big) \psi_2(\bm{r}_2) = E \psi_2 (\bm{r}_2),
-          \end{equation}
-          repeat this step until $E$ converges.
-          The total energy is
-          \begin{equation}
-              E_{\text{total}} = 2E -
-              \int \frac{\psi_1^\ast(\bm{r}_1)\psi_2^\ast(\bm{r}_2) \psi_1(\bm{r}_1)
-                  \psi_2(\bm{r}_2)}{\lvert
-                  \bm{r}_1 - \bm{r}_2 \rvert}\, d\bm{r}_2 \, d\bm{r}_1,
-          \end{equation}
-          $2E$ is because $\psi_1 = \psi_2$.
-          See Fig. \ref{fig:2-b:mini:subfig:a} for reference.
 
-          \begin{figure}[h]
-              \subfigure[The total energy $\varepsilon$ as a function of iteration $n$.]{
-                  \label{fig:2-b:mini:subfig:a}   %% label for first subfigure
-                  \begin{minipage}[b]{0.5\textwidth}
-                      \centering
-                      \includegraphics[width=\linewidth]{pro_2_b_1.pdf}
-                  \end{minipage}}
-              \hfill
-              \subfigure[The interaction density compared with the non-interacting density.]{
-                  \label{fig:2-b:mini:subfig:b}   %% label for second subfigure
-                  \begin{minipage}[b]{0.5\textwidth}
-                      \centering
-                      \includegraphics[width=\linewidth]{pro_2_b_2.pdf}
-                  \end{minipage}}
-              \caption{Problem $2(b)$.}
-              \label{fig:2-b}   %% label for entire figure
-          \end{figure}
+\subsection*{(a)}
 
-          For density, same as $\eqref{eq:density}$, plot as Fig. \ref{fig:2-b:mini:subfig:b}.
-\end{enumerate}
+Set Hamiltonian to be $H = - \frac{1}{2}\nabla_1^2 - \frac{2}{r_1} - \frac{1}{2}\nabla_2^2 - \frac{2}{r_2}$, then
+the Schr\"{o}dinger equation is turned into $2$ single-electron equations, \textit{id est},
+\begin{equation}
+    \Big(- \frac{1}{2}\nabla^2 - \frac{2}{r} \Big) \psi(\bm{r}) = E \psi(\bm{r}).
+\end{equation}
+Construct single-electron wave function with $4$ bases,
+\begin{equation}
+    \psi(\bm{r}) = \sum_{i} c_i \phi_i = c_1 e^{- 0.298073 r^2} +
+    c_2 e^{- 1.242567 r^2} + c_3 e^{- 5.782948 r^2} + c_4 e^{-38.474970 r^2}.
+\end{equation}
+where $c_i, i=1,2,3,4$, are real numbers.
+Now the ground state energy is \SI{-1.99426616}{\electronvolt}.
+The density is
+\begin{equation}\label{eq:density}
+    \lvert \psi(\bm{r}) \rvert^2= \psi^\ast(\bm{r}) \psi(\bm{r}) =
+    \sum_{i, j} c_i^\ast c_j \phi_i^\ast(\bm{r}) \phi_j(\bm{r}),
+\end{equation}
+where $i, j=1,2,3,4$.
+The radial probability distribution is
+\begin{equation}
+    \lvert \chi(\bm{r}) \rvert^2= r^2\int \lvert \psi(\bm{r}) \rvert^2
+    \, d\Omega = 4\pi r^2 \lvert \psi(\bm{r}) \rvert^2.
+\end{equation}
+And, the exact value of single-electron wave function is
+\begin{equation}
+    \psi_{\text{exact}}(\bm{r}) = \sqrt{\frac{8}{\pi}} e^{-2 r},  % This function is normalized.
+\end{equation}
+since the total wave function is
+$\Psi_{\text{exact}}(\bm{r}_1, \bm{r}_2) = \frac{8}{\pi}
+    e^{-2(r_1 + r_2)}$, see Griffith page $187$ \footnote{Here
+    Griffith only considered Hartree method but not
+    Hartree--Fock method, so we don't need to construct an
+    antisymmetric all-electron wave function.}.
+Then we can plot the density and radial probability distribution as a function of $r$
+as Fig.  \ref{fig:2-a:mini:subfig:a} and Fig. \ref{fig:2-a:mini:subfig:b}, respectively.
+
+% \begin{figure}[h]
+%     \subfigure[Density as a function of $r$.]{
+%         \label{fig:2-a:mini:subfig:a}   %% label for first subfigure
+%         \begin{minipage}[b]{0.5\textwidth}
+%             \centering
+%             \includegraphics[width=\linewidth]{pro_2_a_1}
+%         \end{minipage}}
+%     \hfill
+%     \subfigure[Radial probability distribution as a function of $r$.]{
+%         \label{fig:2-a:mini:subfig:b}   %% label for second subfigure
+%         \begin{minipage}[b]{0.5\textwidth}
+%             \centering
+%             \includegraphics[width=\linewidth]{pro_2_a_2}
+%         \end{minipage}}
+%     \caption{Problem $2(a)$.}
+%     \label{fig:2-a}   %% label for entire figure
+% \end{figure}
+
+\subsection*{(b)}
+
+Now consider the single-electron
+Schr\"{o}dinger equation of $\psi_1(\bm{r}_1)$ will be
+\begin{equation}
+    \Big(- \frac{1}{2}\nabla_1^2 - \frac{2}{r_1}
+    + \int \frac{\psi_2^\ast(\bm{r}_2)\psi_2(\bm{r}_2)}{\lvert \bm{r}_1 -
+        \bm{r}_2 \rvert} d\bm{r}_2 \Big) \psi_1(\bm{r}_1) = E \psi_1 (\bm{r}_1),
+\end{equation}
+with $\psi_2(\bm{r}_2) = 0.08704173 e^{-0.298073 r^2}
+    + 0.52509737 e^{-1.242567 r^2}
+    + 0.51920929 e^{-5.782948 r^2}
+    + 0.31233737 e^{-38.474970 r^2}$ as trial function (last question result),
+and
+\begin{equation}
+    \begin{aligned}
+        \int \frac{\psi_2^\ast(\bm{r}_2)\psi_2(\bm{r}_2)}{\lvert \bm{r}_1 -
+            \bm{r}_2 \rvert} d\bm{r}_2
+         & = \sum_{i, j}
+        c_i^\ast c_j
+        \int
+        \frac{\phi_i^\ast(r_2) \phi_j(r_2)}{\lvert \bm{r}_1 - \bm{r}_2 \rvert}
+        \, d\bm{r}_2     \\
+         & = \sum_{i, j}
+        2\pi c_i^\ast c_j
+        \int_{0}^{\infty} \int_{0}^{\pi}
+        \tfrac{\phi_i^\ast(r_2) \phi_j(r_2)}{\sqrt{r_1^2 + r_2^2 - 2 r_1 r_2
+                \cos\theta}}
+        r_2^2 \sin \theta \, d\theta \, dr_2.
+    \end{aligned}
+\end{equation}
+Left multiplied by $\bra{\phi_i(\bm{r}_1)}$ and integrate, we have
+\begin{equation}
+    \begin{aligned}
+        \Braket{ \phi_i(\bm{r}_1) | - \frac{1}{2}\nabla_1^2 -
+            \frac{2}{r_1} | \psi_1(\bm{r}_1) } +
+        \Braket{\phi_i(\bm{r}_1) |
+            \int \frac{\psi_2^\ast(\bm{r}_2)\psi_2(\bm{r}_2)}{\lvert
+                \bm{r}_1 - \bm{r}_2 \rvert} d\bm{r}_2 | \psi_1(\bm{r}_1)}
+        = E \braket{\phi_i(\bm{r}_1) |
+            \psi_1(\bm{r}_1)}.
+    \end{aligned}
+\end{equation}
+The eigenvalue problem will be
+\begin{equation}
+    \det (H_{ij} - S_{ij} E + K_{ij}) = 0,
+\end{equation}
+here $H_{ij} = \braket{\phi_i | - \frac{1}{2}\nabla_1^2 - \frac{2}{r_1} | \phi_j}$, $S_{ij} =
+    \braket{\phi_i | \phi_j}$, and
+\begin{equation}
+    K_{ij} = \sum_{m, n} 8\pi^2 c_m^\ast c_n
+    \int_{0}^{\infty} r_1^2  \, dr_1
+    \int_{0}^{\infty} r_2^2 \, dr_2
+    \int_{0}^{\pi}
+    \tfrac{\phi_i^\ast(r_1) \phi_m^\ast(r_2) \phi_n(r_2)\phi_j(r_1)}{%
+        \sqrt{r_1^2 + r_2^2 - 2 r_1 r_2 \cos\theta}} \sin\theta \, d\theta.
+\end{equation}
+Derive new set of $\{ c_1, c_2, c_3, c_4\}$, let $\psi_1(\bm{r}_1) =
+    \sum_{i=1}^{4} c_i \phi_i(\bm{r}_1)$, and substitute
+into
+\begin{equation}
+    \Big(- \frac{1}{2}\nabla_2^2 - \frac{2}{r_2}
+    + \int \frac{\psi_1^\ast(\bm{r}_1)\psi_1(\bm{r}_1)}{\lvert \bm{r}_1 -
+        \bm{r}_2 \rvert} d\bm{r}_1 \Big) \psi_2(\bm{r}_2) = E \psi_2 (\bm{r}_2),
+\end{equation}
+repeat this step until $E$ converges.
+The total energy is
+\begin{equation}
+    E_{\text{total}} = 2E -
+    \int \frac{\psi_1^\ast(\bm{r}_1)\psi_2^\ast(\bm{r}_2) \psi_1(\bm{r}_1)
+        \psi_2(\bm{r}_2)}{\lvert
+        \bm{r}_1 - \bm{r}_2 \rvert}\, d\bm{r}_2 \, d\bm{r}_1,
+\end{equation}
+$2E$ is because $\psi_1 = \psi_2$.
+See Fig. \ref{fig:2-b:mini:subfig:a} for reference.
+
+% \begin{figure}[h]
+%     \subfigure[The total energy $\varepsilon$ as a function of iteration $n$.]{
+%         \label{fig:2-b:mini:subfig:a}   %% label for first subfigure
+%         \begin{minipage}[b]{0.5\textwidth}
+%             \centering
+%             \includegraphics[width=\linewidth]{pro_2_b_1}
+%         \end{minipage}}
+%     \hfill
+%     \subfigure[The interaction density compared with the non-interacting density.]{
+%         \label{fig:2-b:mini:subfig:b}   %% label for second subfigure
+%         \begin{minipage}[b]{0.5\textwidth}
+%             \centering
+%             \includegraphics[width=\linewidth]{pro_2_b_2}
+%         \end{minipage}}
+%     \caption{Problem $2(b)$.}
+%     \label{fig:2-b}   %% label for entire figure
+% \end{figure}
+
+For density, same as $\eqref{eq:density}$, plot as Fig. \ref{fig:2-b:mini:subfig:b}.
 
 \section{Problem \RMN{3}}
-\begin{enumerate}[(a)]
-    \item By neglecting the electron-electron interactions, we have
-          \begin{equation}
-              H = - \frac{1}{2}\nabla_1^2
-              - \frac{1}{2}\nabla_2^2
-              - \frac{1}{\lvert \bm{r}_1 - \bm{R}_1 \rvert} - \frac{1}{\lvert \bm{r}_1 - \bm{R}_2 \rvert}
-              - \frac{1}{\lvert \bm{r}_2 - \bm{R}_1 \rvert} - \frac{1}{\lvert \bm{r}_2 - \bm{R}_2 \rvert}
-              + \frac{1}{\lvert \bm{R}_1 - \bm{R}_2 \rvert},
-          \end{equation}
-          The single-electron wave function is
-          \begin{equation}
-              \psi(\bm{r}) = \sum_{i} \sum_n c_{i, m}\phi_{i}^{R_m}(r) =
-              \sum_{i=1}^{4}\sum_{m=1}^{2} c_{i, m} e^{-\alpha_i (r - R_m)^2},
-          \end{equation}
-          so corresponding Schr\"{o}dinger equation of $\psi_1(\bm{r}_1)$ is
-          \begin{equation}
-              \Big(- \frac{1}{2}\nabla_1^2
-              - \frac{1}{\lvert \bm{r}_1 - \bm{R}_1 \rvert}
-              - \frac{1}{\lvert \bm{r}_1 - \bm{R}_2 \rvert}
-              + \frac{1}{\lvert \bm{R}_1 -
-                  \bm{R}_2 \rvert} \Big) \psi_1(\bm{r}_1)
-              = E \psi_1 (\bm{r}_1).
-          \end{equation}
-          Left multiplied by $\Big( \phi_i^{R_m} \Big)^\ast(\bm{r}_1)$ and integrate, we have
-          \begin{equation}
-              \Braket{\phi_i^{R_m} |
-                  - \frac{1}{2}\nabla_1^2
-                  - \frac{1}{\lvert \bm{r}_1 - \bm{R}_1 \rvert}
-                  - \frac{1}{\lvert \bm{r}_1 - \bm{R}_2 \rvert}
-                  + \frac{1}{\lvert \bm{R}_1 -
-                      \bm{R}_2 \rvert} |  \psi_1}
-              = E \Braket{\phi_i^{R_m} | \psi_1}.
-          \end{equation}
 
-          So the eigenvalue problem will be
-          \begin{equation}
-              \det(T_{ij, mn} + N^E_{ij, mn} + N^N_{ij, mn} - S_{ij, mn} E ) = 0.
-          \end{equation}
-          where $T_{ij, mn} = \Braket{\phi_i^{R_m} | - \frac{1}{2}\nabla^2 | \phi_j^{R_n} }$,
-          $N^E_{ij, mn}=\Braket{\phi_i^{R_m} |
-                  -\frac{1}{\lvert \bm{r} - \bm{R}_1 \rvert } | \phi_j^{R_n} }
-              + \Braket{\phi_i^{R_m} |
-                  -\frac{1}{\lvert \bm{r} - \bm{R}_2 \rvert } | \phi_j^{R_n} }$,
-          $N^N_{ij} = \Braket{\phi_i^{R_m} |
-                  \frac{1}{\lvert \bm{R}_1 - \bm{R}_2 \rvert } | \phi_j^{R_n} }$,
-          and
-          $S_{ij, mn} = \Braket{\phi_i^{R_m} | \phi_j^{R_n} }$
-          are all $8\times 8$ matrix,
-          where $i, j=1$,~$2$,~$3$,~$4$, and $m, n=1$,~$2$.
+\subsection*{(a)}
 
-          The total energy is
-          \begin{equation}
-              \begin{aligned}
-                  E_{\text{total}}
-                   & = 2 E - \Braket{\psi |
-                      \frac{1}{\lvert \bm{R}_1 - \bm{R}_2 \rvert }
-                      | \psi}
-                   & = 2 E - \frac{1}{\lvert \bm{R}_1 - \bm{R}_2 \rvert},
-              \end{aligned}
-          \end{equation}
-          here the second term is calculated twice in eigenvalue, so subtract it.
+By neglecting the electron-electron interactions, we have
+\begin{equation}
+    H = - \frac{1}{2}\nabla_1^2
+    - \frac{1}{2}\nabla_2^2
+    - \frac{1}{\lvert \bm{r}_1 - \bm{R}_1 \rvert} - \frac{1}{\lvert \bm{r}_1 - \bm{R}_2 \rvert}
+    - \frac{1}{\lvert \bm{r}_2 - \bm{R}_1 \rvert} - \frac{1}{\lvert \bm{r}_2 - \bm{R}_2 \rvert}
+    + \frac{1}{\lvert \bm{R}_1 - \bm{R}_2 \rvert},
+\end{equation}
+The single-electron wave function is
+\begin{equation}
+    \psi(\bm{r}) = \sum_{i} \sum_n c_{i, m}\phi_{i}^{R_m}(r) =
+    \sum_{i=1}^{4}\sum_{m=1}^{2} c_{i, m} e^{-\alpha_i (r - R_m)^2},
+\end{equation}
+so corresponding Schr\"{o}dinger equation of $\psi_1(\bm{r}_1)$ is
+\begin{equation}
+    \Big(- \frac{1}{2}\nabla_1^2
+    - \frac{1}{\lvert \bm{r}_1 - \bm{R}_1 \rvert}
+    - \frac{1}{\lvert \bm{r}_1 - \bm{R}_2 \rvert}
+    + \frac{1}{\lvert \bm{R}_1 -
+        \bm{R}_2 \rvert} \Big) \psi_1(\bm{r}_1)
+    = E \psi_1 (\bm{r}_1).
+\end{equation}
+Left multiplied by $\Big( \phi_i^{R_m} \Big)^\ast(\bm{r}_1)$ and integrate, we have
+\begin{equation}
+    \Braket{\phi_i^{R_m} |
+        - \frac{1}{2}\nabla_1^2
+        - \frac{1}{\lvert \bm{r}_1 - \bm{R}_1 \rvert}
+        - \frac{1}{\lvert \bm{r}_1 - \bm{R}_2 \rvert}
+        + \frac{1}{\lvert \bm{R}_1 -
+            \bm{R}_2 \rvert} |  \psi_1}
+    = E \Braket{\phi_i^{R_m} | \psi_1}.
+\end{equation}
 
-          When $\lvert \bm{R}_1 - \bm{R}_2 \rvert = \SI{1.020}{\bohr}$, the eigenvalue is \SI{-1.88723984843}{\hartree}.
-          See Fig. \ref{fig:pro3a} for reference.
-          \begin{figure}[h]
-              \centering
-              \includegraphics[width=0.5\linewidth]{pro_3_a.pdf}
-              \caption{The total energy as a function of $\lvert \bm{R}_1 - \bm{R}_2 \rvert$.}
-              \label{fig:pro3a}
-          \end{figure}
+So the eigenvalue problem will be
+\begin{equation}
+    \det(T_{ij, mn} + N^E_{ij, mn} + N^N_{ij, mn} - S_{ij, mn} E ) = 0.
+\end{equation}
+where $T_{ij, mn} = \Braket{\phi_i^{R_m} | - \frac{1}{2}\nabla^2 | \phi_j^{R_n} }$,
+$N^E_{ij, mn}=\Braket{\phi_i^{R_m} |
+        -\frac{1}{\lvert \bm{r} - \bm{R}_1 \rvert } | \phi_j^{R_n} }
+    + \Braket{\phi_i^{R_m} |
+        -\frac{1}{\lvert \bm{r} - \bm{R}_2 \rvert } | \phi_j^{R_n} }$,
+$N^N_{ij} = \Braket{\phi_i^{R_m} |
+        \frac{1}{\lvert \bm{R}_1 - \bm{R}_2 \rvert } | \phi_j^{R_n} }$,
+and
+$S_{ij, mn} = \Braket{\phi_i^{R_m} | \phi_j^{R_n} }$
+are all $8\times 8$ matrix,
+where $i, j=1$,~$2$,~$3$,~$4$, and $m, n=1$,~$2$.
 
-          If I use the basis set from problem $1(a)$, the answers does not change.
-    \item Now the Hamiltonian becomes
-          \begin{multline}
-              H = - \frac{1}{2}\nabla_1^2
-              - \frac{1}{2}\nabla_2^2
-              - \frac{1}{\lvert \bm{r}_1 - \bm{R}_1 \rvert} - \frac{1}{\lvert \bm{r}_1 - \bm{R}_2 \rvert}\\
-              - \frac{1}{\lvert \bm{r}_2 - \bm{R}_1 \rvert} - \frac{1}{\lvert \bm{r}_2 - \bm{R}_2 \rvert}
-              + \frac{1}{\lvert \bm{R}_1 - \bm{R}_2 \rvert} + \frac{1}{\lvert \bm{r}_1 - \bm{r}_2 \rvert},
-          \end{multline}
-          and
-          \begin{multline}
-              \Braket{\phi_i^{R_m} |
-                  - \frac{1}{2}\nabla_1^2
-                  - \frac{1}{\lvert \bm{r}_1 - \bm{R}_1 \rvert}
-                  - \frac{1}{\lvert \bm{r}_1 - \bm{R}_2 \rvert}
-                  + \frac{1}{\lvert \bm{R}_1 -
-                      \bm{R}_2 \rvert}
-                  + \int d\bm{r}_2 \frac{ \psi_2 ^\ast  (\bm{r}_2) \psi_2(\bm{r}_2)}{\lvert \bm{r}_1 - \bm{r}_2 \rvert}
-                  |  \psi_1}\\
-              = E \Braket{\phi_i^{R_m} | \psi_1}.
-          \end{multline}
-          Similar as $2(b)$, the eigenvalue problem now becomes
-          \begin{equation}
-              \det(T_{ij, mn} + N^E_{ij, mn} + N^N_{ij, mn} + H_{ij, mn} - S_{ij, mn} E ) = 0,
-          \end{equation}
-          where
-          \begin{multline}
-              H_{ij, mn} = \sum_{\substack{p, q\\u, v}} 8\pi^2 c_{p, u}^\ast c_{q, v}
-              \!\int_{0}^{\infty} r_1^2  \, dr_1
-              \!\int_{0}^{\infty} r_2^2 \, dr_2
-              \!\int_{0}^{\pi}
-              \tfrac{\big( \phi_i^{R_m} \big)^\ast(r_1) \big(\phi_p^{R_u} \big)^\ast(r_2) %
-                  \phi_q^{R_v}(r_2)\phi_j^{R_n}(r_1)}{%
-                  \sqrt{r_1^2 + r_2^2 - 2 r_1 r_2 \cos\theta}} \sin\theta \, d\theta
-          \end{multline}
-          is the Hartree term.
+The total energy is
+\begin{equation}
+    \begin{aligned}
+        E_{\text{total}} & = 2 E - \Braket{\psi | \frac{1}{\lvert \bm{R}_1 - \bm{R}_2 \rvert } | \psi}
+                         & = 2 E - \frac{1}{\lvert \bm{R}_1 - \bm{R}_2 \rvert},
+    \end{aligned}
+\end{equation}
+here the second term is calculated twice in eigenvalue, so subtract it.
 
-          The total energy is
-          \begin{equation}
-              E_{\text{total}} = 2 E - \frac{1}{\lvert \bm{R}_1 - \bm{R}_2 \rvert} -
-              \Braket{\psi | \frac{1}{\lvert \bm{r}_1 - \bm{r}_2 \rvert} | \psi },
-          \end{equation}
-          we need to subtract Hartree energy.
-          \begin{figure}[h]
-              \subfigure[The total energy as a function of distance.]{
-                  \label{fig:3-b:mini:subfig:a}   %% label for first subfigure
-                  \begin{minipage}[b]{0.5\textwidth}
-                      \centering
-                      \includegraphics[width=\linewidth]{pro_3_b_1}
-                  \end{minipage}}
-              \hfill
-              \subfigure[The density as a function of distance.]{
-                  \label{fig:3-b:mini:subfig:b}   %% label for second subfigure
-                  \begin{minipage}[b]{0.5\textwidth}
-                      \centering
-                      \includegraphics[width=\linewidth]{pro_3_b_2}
-                  \end{minipage}}
-              \caption{Problem $3(b)$.}
-              \label{fig:3-b}   %% label for entire figure
-          \end{figure}
+When $\lvert \bm{R}_1 - \bm{R}_2 \rvert = \SI{1.020}{\bohr}$, the eigenvalue is \SI{-1.88723984843}{\hartree}.
+See Fig. \ref{fig:pro3a} for reference.
 
-          See Fig. \ref{fig:3-b:mini:subfig:a} and Fig. \ref{fig:3-b:mini:subfig:b}
-          for reference. The minimum point is when $\lvert \bm{R}_1- \bm{R}_2 \rvert = \SI{1.3462}{\bohr}$(close
-          to experiment value \SI{1.401}{\bohr}), the
-          corresponding energy is \SI{-1.1129}{\hartree}.
+% \begin{figure}[h]
+%     \centering
+%     \includegraphics[width=0.5\linewidth]{pro_3_a}
+%     \caption{The total energy as a function of $\lvert \bm{R}_1 - \bm{R}_2 \rvert$.}
+%     \label{fig:pro3a}
+% \end{figure}
 
-    \item The Hamiltonian is still the same, but Schr\"{o}dinger equation will be
-          \begin{multline}\label{eq:psi1}
-              \bigg(- \frac{1}{2}\nabla_1^2
-              - \frac{1}{\lvert \bm{r}_1 - \bm{R}_1 \rvert}
-              - \frac{1}{\lvert \bm{r}_1 - \bm{R}_2 \rvert}
-              + \frac{1}{\lvert \bm{R}_1 -
-                  \bm{R}_2 \rvert}\\
-              + \int d\bm{r}_2
-              \frac{ \psi_2 ^\ast  (\bm{r}_2) \psi_2(\bm{r}_2) - \psi_2 ^\ast  (\bm{r}_2) \hat{P} \psi_2(\bm{r}_2)}%
-              {\lvert \bm{r}_1 - \bm{r}_2 \rvert}
-              \bigg) \psi_1(\bm{r}_1)
-              = E_1  \psi_1(\bm{r}_1),
-          \end{multline}
-          and
-          \begin{multline}\label{eq:psi2}
-              \bigg(- \frac{1}{2}\nabla_2^2
-              - \frac{1}{\lvert \bm{r}_2 - \bm{R}_1 \rvert}
-              - \frac{1}{\lvert \bm{r}_2 - \bm{R}_2 \rvert}
-              + \frac{1}{\lvert \bm{R}_1 -
-                  \bm{R}_2 \rvert}\\
-              + \int d\bm{r}_1
-              \frac{ \psi_1 ^\ast  (\bm{r}_1) \psi_1(\bm{r}_1) - \psi_1 ^\ast  (\bm{r}_1) \hat{P} \psi_1(\bm{r}_1)}%
-              {\lvert \bm{r}_1 - \bm{r}_2 \rvert}
-              \bigg) \psi_2(\bm{r}_2)
-              = E_2  \psi_2(\bm{r}_2),
-          \end{multline}
-          where $\hat{P}$ is the permutation operator.
-          So the eigenvalue problem will be
-          \begin{equation}
-              \det(T_{ij, mn} + N^E_{ij, mn} + N^N_{ij, mn} + F_{ij, mn} - S_{ij, mn} E ) = 0.
-          \end{equation}
-          where
-          \begin{multline}
-              F_{ij, mn} = \sum_{\substack{p, q\\u, v}} 8\pi^2 c_{p, u}^\ast c_{q, v}
-              \!\int_{0}^{\infty} r_1^2  \, dr_1
-              \!\int_{0}^{\infty} r_2^2 \, dr_2
-              \!\int_{0}^{\pi}
-              \frac{ \sin\theta \, d\theta}{ \mathsmaller{\sqrt{r_1^2 + r_2^2 - 2 r_1 r_2 \cos\theta}} }\\
-              \cdot \Big(
-              \big( \phi_i^{R_m} \big)^\ast(r_1) \big(\phi_p^{R_u} \big)^\ast(r_2) %
-              \phi_q^{R_v}(r_2)\phi_j^{R_n}(r_1)\\
-              -  \big( \phi_i^{R_m} \big)^\ast(r_1) \big(\phi_p^{R_u} \big)^\ast(r_2) %
-              \phi_j^{R_n}(r_2)\phi_q^{R_v}(r_1)
-              \Big)
-          \end{multline}
-          Now perform self-consistency loop, first assume a trial $\psi_2$, substitute into
-          $\eqref{eq:psi1}$, solve the coefficients of $\psi_1$, then substitute this $\psi_1$
-          into $\eqref{eq:psi2}$, solve the new coefficients of $\psi_2$, etc. Repeat this procedure
-          until the total energy converges.
-\end{enumerate}
+If I use the basis set from problem $1(a)$, the answers does not change.
+
+\subsection*{(b)}
+
+Now the Hamiltonian becomes
+\begin{multline}
+    H = - \frac{1}{2}\nabla_1^2
+    - \frac{1}{2}\nabla_2^2
+    - \frac{1}{\lvert \bm{r}_1 - \bm{R}_1 \rvert} - \frac{1}{\lvert \bm{r}_1 - \bm{R}_2 \rvert}\\
+    - \frac{1}{\lvert \bm{r}_2 - \bm{R}_1 \rvert} - \frac{1}{\lvert \bm{r}_2 - \bm{R}_2 \rvert}
+    + \frac{1}{\lvert \bm{R}_1 - \bm{R}_2 \rvert} + \frac{1}{\lvert \bm{r}_1 - \bm{r}_2 \rvert},
+\end{multline}
+and
+\begin{multline}
+    \Braket{\phi_i^{R_m} |
+        - \frac{1}{2}\nabla_1^2
+        - \frac{1}{\lvert \bm{r}_1 - \bm{R}_1 \rvert}
+        - \frac{1}{\lvert \bm{r}_1 - \bm{R}_2 \rvert}
+        + \frac{1}{\lvert \bm{R}_1 -
+            \bm{R}_2 \rvert}
+        + \int d\bm{r}_2 \frac{ \psi_2 ^\ast  (\bm{r}_2) \psi_2(\bm{r}_2)}{\lvert \bm{r}_1 - \bm{r}_2 \rvert}
+        |  \psi_1}\\
+    = E \Braket{\phi_i^{R_m} | \psi_1}.
+\end{multline}
+Similar as $2(b)$, the eigenvalue problem now becomes
+\begin{equation}
+    \det(T_{ij, mn} + N^E_{ij, mn} + N^N_{ij, mn} + H_{ij, mn} - S_{ij, mn} E ) = 0,
+\end{equation}
+where
+\begin{multline}
+    H_{ij, mn} = \sum_{\substack{p, q\\u, v}} 8\pi^2 c_{p, u}^\ast c_{q, v}
+    \!\int_{0}^{\infty} r_1^2  \, dr_1
+    \!\int_{0}^{\infty} r_2^2 \, dr_2
+    \!\int_{0}^{\pi}
+    \tfrac{\big( \phi_i^{R_m} \big)^\ast(r_1) \big(\phi_p^{R_u} \big)^\ast(r_2) %
+        \phi_q^{R_v}(r_2)\phi_j^{R_n}(r_1)}{%
+        \sqrt{r_1^2 + r_2^2 - 2 r_1 r_2 \cos\theta}} \sin\theta \, d\theta
+\end{multline}
+is the Hartree term.
+
+The total energy is
+\begin{equation}
+    E_{\text{total}} = 2 E - \frac{1}{\lvert \bm{R}_1 - \bm{R}_2 \rvert} -
+    \Braket{\psi | \frac{1}{\lvert \bm{r}_1 - \bm{r}_2 \rvert} | \psi },
+\end{equation}
+we need to subtract Hartree energy.
+
+% \begin{figure}[h]
+%     \subfigure[The total energy as a function of distance.]{
+%         \label{fig:3-b:mini:subfig:a}   %% label for first subfigure
+%         \begin{minipage}[b]{0.5\textwidth}
+%             \centering
+%             \includegraphics[width=\linewidth]{pro_3_b_1}
+%         \end{minipage}}
+%     \hfill
+%     \subfigure[The density as a function of distance.]{
+%         \label{fig:3-b:mini:subfig:b}   %% label for second subfigure
+%         \begin{minipage}[b]{0.5\textwidth}
+%             \centering
+%             \includegraphics[width=\linewidth]{pro_3_b_2}
+%         \end{minipage}}
+%     \caption{Problem $3(b)$.}
+%     \label{fig:3-b}   %% label for entire figure
+% \end{figure}
+
+See Fig. \ref{fig:3-b:mini:subfig:a} and Fig. \ref{fig:3-b:mini:subfig:b}
+for reference. The minimum point is when $\lvert \bm{R}_1- \bm{R}_2 \rvert = \SI{1.3462}{\bohr}$(close
+to experiment value \SI{1.401}{\bohr}), the
+corresponding energy is \SI{-1.1129}{\hartree}.
+
+\subsection*{(c)}
+
+The Hamiltonian is still the same, but Schr\"{o}dinger equation will be
+\begin{multline}\label{eq:psi1}
+    \bigg(- \frac{1}{2}\nabla_1^2
+    - \frac{1}{\lvert \bm{r}_1 - \bm{R}_1 \rvert}
+    - \frac{1}{\lvert \bm{r}_1 - \bm{R}_2 \rvert}
+    + \frac{1}{\lvert \bm{R}_1 -
+        \bm{R}_2 \rvert}\\
+    + \int d\bm{r}_2
+    \frac{ \psi_2 ^\ast  (\bm{r}_2) \psi_2(\bm{r}_2) - \psi_2 ^\ast  (\bm{r}_2) \hat{P} \psi_2(\bm{r}_2)}%
+    {\lvert \bm{r}_1 - \bm{r}_2 \rvert}
+    \bigg) \psi_1(\bm{r}_1)
+    = E_1  \psi_1(\bm{r}_1),
+\end{multline}
+and
+\begin{multline}\label{eq:psi2}
+    \bigg(- \frac{1}{2}\nabla_2^2
+    - \frac{1}{\lvert \bm{r}_2 - \bm{R}_1 \rvert}
+    - \frac{1}{\lvert \bm{r}_2 - \bm{R}_2 \rvert}
+    + \frac{1}{\lvert \bm{R}_1 -
+        \bm{R}_2 \rvert}\\
+    + \int d\bm{r}_1
+    \frac{ \psi_1 ^\ast  (\bm{r}_1) \psi_1(\bm{r}_1) - \psi_1 ^\ast  (\bm{r}_1) \hat{P} \psi_1(\bm{r}_1)}%
+    {\lvert \bm{r}_1 - \bm{r}_2 \rvert}
+    \bigg) \psi_2(\bm{r}_2)
+    = E_2  \psi_2(\bm{r}_2),
+\end{multline}
+where $\hat{P}$ is the permutation operator.
+So the eigenvalue problem will be
+\begin{equation}
+    \det(T_{ij, mn} + N^E_{ij, mn} + N^N_{ij, mn} + F_{ij, mn} - S_{ij, mn} E ) = 0.
+\end{equation}
+where
+\begin{multline}
+    F_{ij, mn} = \sum_{\substack{p, q\\u, v}} 8\pi^2 c_{p, u}^\ast c_{q, v}
+    \!\int_{0}^{\infty} r_1^2  \, dr_1
+    \!\int_{0}^{\infty} r_2^2 \, dr_2
+    \!\int_{0}^{\pi}
+    \frac{ \sin\theta \, d\theta}{ \mathsmaller{\sqrt{r_1^2 + r_2^2 - 2 r_1 r_2 \cos\theta}} }\\
+    \cdot \Big(
+    \big( \phi_i^{R_m} \big)^\ast(r_1) \big(\phi_p^{R_u} \big)^\ast(r_2) %
+    \phi_q^{R_v}(r_2)\phi_j^{R_n}(r_1)\\
+    -  \big( \phi_i^{R_m} \big)^\ast(r_1) \big(\phi_p^{R_u} \big)^\ast(r_2) %
+    \phi_j^{R_n}(r_2)\phi_q^{R_v}(r_1)
+    \Big)
+\end{multline}
+Now perform self-consistency loop, first assume a trial $\psi_2$, substitute into
+$\eqref{eq:psi1}$, solve the coefficients of $\psi_1$, then substitute this $\psi_1$
+into $\eqref{eq:psi2}$, solve the new coefficients of $\psi_2$, etc. Repeat this procedure
+until the total energy converges.
 
 \end{document}
