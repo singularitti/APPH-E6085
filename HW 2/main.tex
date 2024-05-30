@@ -43,18 +43,22 @@
 
 \subsection*{(a)}
 
-The Hamiltonian is $H = - \frac{1}{2} \nabla^2 -
-    \frac{1}{r}$\thinspace,
+The Hamiltonian is $H = - \frac{1}{2} \nabla^2 - \frac{1}{r}$\thinspace,
 construct wave functions with $4$ bases,
+%
 \begin{equation}
     \psi(\symbf{r}) = \sum_{i} c_i \phi_i = c_1 e^{- 13.0 r^2} +
     c_2 e^{- 1.96 r^2} + c_3 e^{- 0.44 r^2} + c_4 e^{-0.12 r^2}.
 \end{equation}
+%
 where $c_i, i=1,2,3,4$ are real numbers.
+
 Define functional
+%
 \begin{equation}
     E[\psi] = \frac{\braket{\psi| H | \psi}}{\braket{\psi|\psi}},
 \end{equation}
+%
 according to variational principle, the ground state energy $E$ satisfies
 \begin{equation}
     \det (H_{ij} - S_{ij} E) = 0,
@@ -66,9 +70,9 @@ Under spherical coordinates,
     \begin{aligned}
         \nabla^2 & = \frac{1}{r} \frac{\partial^2}{\partial r^2} r - \frac{\symbf{l}^2}{\hbar^2 r^2} \\
                  & = \frac{1}{r} \frac{\partial^2}{\partial
-            r^2}r+{\frac{1}{r^{2}\sin \theta }}{\frac{\partial
-        }{\partial \theta }}\Big(\sin \theta {\frac{\partial
-            }{\partial \theta }}\Big)+{\frac{1}{r^{2}\sin^{2}\theta }}{\frac{\partial^{2}}{\partial \varphi^{2}}} \thinspace,
+            r^2}r+{\frac{1}{r^{2}\sin \theta}}{\frac{\partial
+        }{\partial \theta}}\Big(\sin \theta{\frac{\partial
+            }{\partial \theta}}\Big)+{\frac{1}{r^{2}\sin^{2}\theta}}{\frac{\partial^{2}}{\partial \varphi^{2}}} \thinspace,
     \end{aligned}
 \end{equation}
 here every $\phi(r)$ does not contain $\theta$ and $\varphi$,
@@ -273,7 +277,7 @@ and
         \int_{0}^{\infty} \int_{0}^{\pi}
         \tfrac{\phi_i^\ast(r_2) \phi_j(r_2)}{\sqrt{r_1^2 + r_2^2 - 2 r_1 r_2
                 \cos\theta}}
-        r_2^2 \sin \theta \, d\theta \, dr_2.
+        r_2^2 \sin \theta\, d\theta\, dr_2.
     \end{aligned}
 \end{equation}
 Left multiplied by $\bra{\phi_i(\symbf{r}_1)}$ and integrate, we have
@@ -300,7 +304,7 @@ here $H_{ij} = \braket{\phi_i | - \frac{1}{2}\nabla_1^2 - \frac{2}{r_1} | \phi_j
     \int_{0}^{\infty} r_2^2 \, dr_2
     \int_{0}^{\pi}
     \tfrac{\phi_i^\ast(r_1) \phi_m^\ast(r_2) \phi_n(r_2)\phi_j(r_1)}{%
-        \sqrt{r_1^2 + r_2^2 - 2 r_1 r_2 \cos\theta}} \sin\theta \, d\theta.
+        \sqrt{r_1^2 + r_2^2 - 2 r_1 r_2 \cos\theta}} \sin\theta\, d\theta.
 \end{equation}
 Derive new set of $\{ c_1, c_2, c_3, c_4\}$, let $\psi_1(\symbf{r}_1) =
     \sum_{i=1}^{4} c_i \phi_i(\symbf{r}_1)$, and substitute
@@ -449,7 +453,7 @@ where
     \!\int_{0}^{\pi}
     \tfrac{\big( \phi_i^{R_m} \big)^\ast(r_1) \big(\phi_p^{R_u} \big)^\ast(r_2) %
         \phi_q^{R_v}(r_2)\phi_j^{R_n}(r_1)}{%
-        \sqrt{r_1^2 + r_2^2 - 2 r_1 r_2 \cos\theta}} \sin\theta \, d\theta
+        \sqrt{r_1^2 + r_2^2 - 2 r_1 r_2 \cos\theta}} \sin\theta\, d\theta
 \end{multline}
 is the Hartree term.
 
@@ -522,7 +526,7 @@ where
     \!\int_{0}^{\infty} r_1^2  \, dr_1
     \!\int_{0}^{\infty} r_2^2 \, dr_2
     \!\int_{0}^{\pi}
-    \frac{ \sin\theta \, d\theta}{ \mathsmaller{\sqrt{r_1^2 + r_2^2 - 2 r_1 r_2 \cos\theta}} }\\
+    \frac{ \sin\theta\, d\theta}{ \mathsmaller{\sqrt{r_1^2 + r_2^2 - 2 r_1 r_2 \cos\theta}} }\\
     \cdot \Big(
     \big( \phi_i^{R_m} \big)^\ast(r_1) \big(\phi_p^{R_u} \big)^\ast(r_2) %
     \phi_q^{R_v}(r_2)\phi_j^{R_n}(r_1)\\
