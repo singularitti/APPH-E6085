@@ -11,11 +11,21 @@ from scipy.linalg import eigh
 from scipy.special import erf
 
 my_path = os.path.abspath(__file__ + "/../../")
-plt.style.use('classic')
+plt.style.use("classic")
 
 alpha_he = np.array([0.298073, 1.242567, 5.782948, 38.474970])
-trial = np.array([0.08088997, 0.2352165, 0.11090607, 0.06835098, 0.08088997, 0.2352165,
-                  0.11090607, 0.06835098])
+trial = np.array(
+    [
+        0.08088997,
+        0.2352165,
+        0.11090607,
+        0.06835098,
+        0.08088997,
+        0.2352165,
+        0.11090607,
+        0.06835098,
+    ]
+)
 R = np.linspace(0.01, 5, num=500, endpoint=True)
 r = np.linspace(-4, 4, num=500, endpoint=True)  # electron distance
 
@@ -34,8 +44,7 @@ class HydrogenMolecule(object):
         """
         tmp_1 = ai * aj / (ai + aj)
         tmp_2 = tmp_1 * (Rm - Rn) ** 2
-        return (np.pi / (ai + aj)) ** (3 / 2) * \
-               np.exp(-tmp_2) * tmp_1 * (3 - 2 * tmp_2)
+        return (np.pi / (ai + aj)) ** (3 / 2) * np.exp(-tmp_2) * tmp_1 * (3 - 2 * tmp_2)
 
     @staticmethod
     def overlap(ai, aj, Rm, Rn):
@@ -78,34 +87,53 @@ class HydrogenMolecule(object):
 
     def construct_eig_problem(self, R1, R2):
         # The order of [Rn, aj, Rm, ai] is crucial, or it will not be positive definite
-        kin_ij = np.array([self.kinetic_energy(ai, aj, Rm, Rn)
-                           for Rn in [R1, R2]
-                           for aj in self.alpha
-                           for Rm in [R1, R2]
-                           for ai in self.alpha])
+        kin_ij = np.array(
+            [
+                self.kinetic_energy(ai, aj, Rm, Rn)
+                for Rn in [R1, R2]
+                for aj in self.alpha
+                for Rm in [R1, R2]
+                for ai in self.alpha
+            ]
+        )
 
-        e_n_ij = np.array([self.electron_nuclear_interaction(ai, aj, Rm, Rn, R1)
-                           for Rn in [R1, R2]
-                           for aj in self.alpha
-                           for Rm in [R1, R2]
-                           for ai in self.alpha]) + \
-                 np.array([self.electron_nuclear_interaction(ai, aj, Rm, Rn, R2)
-                           for Rn in [R1, R2]
-                           for aj in self.alpha
-                           for Rm in [R1, R2]
-                           for ai in self.alpha])
+        e_n_ij = np.array(
+            [
+                self.electron_nuclear_interaction(ai, aj, Rm, Rn, R1)
+                for Rn in [R1, R2]
+                for aj in self.alpha
+                for Rm in [R1, R2]
+                for ai in self.alpha
+            ]
+        ) + np.array(
+            [
+                self.electron_nuclear_interaction(ai, aj, Rm, Rn, R2)
+                for Rn in [R1, R2]
+                for aj in self.alpha
+                for Rm in [R1, R2]
+                for ai in self.alpha
+            ]
+        )
 
-        n_n_ij = np.array([self.nuclear_nuclear_interaction(ai, aj, Rm, Rn, R1, R2)
-                           for Rn in [R1, R2]
-                           for aj in self.alpha
-                           for Rm in [R1, R2]
-                           for ai in self.alpha])
+        n_n_ij = np.array(
+            [
+                self.nuclear_nuclear_interaction(ai, aj, Rm, Rn, R1, R2)
+                for Rn in [R1, R2]
+                for aj in self.alpha
+                for Rm in [R1, R2]
+                for ai in self.alpha
+            ]
+        )
 
-        s_ij = np.array([self.overlap(ai, aj, Rm, Rn)
-                         for Rn in [R1, R2]
-                         for aj in self.alpha
-                         for Rm in [R1, R2]
-                         for ai in self.alpha])
+        s_ij = np.array(
+            [
+                self.overlap(ai, aj, Rm, Rn)
+                for Rn in [R1, R2]
+                for aj in self.alpha
+                for Rm in [R1, R2]
+                for ai in self.alpha
+            ]
+        )
 
         return (kin_ij + e_n_ij + n_n_ij).reshape(8, 8), s_ij.reshape(8, 8)
 
@@ -124,11 +152,14 @@ class HydrogenMolecule(object):
     def density(self, r, R1, R2, coeff):
         # This is not equal to overlap, because no integration is done
         phi_phi_mat = np.array(
-            [np.exp(-ai * (r - Rm) ** 2 - aj * (r - Rn) ** 2)
-             for Rn in [R1, R2]
-             for aj in self.alpha
-             for Rm in [R1, R2]
-             for ai in self.alpha]).reshape(8, 8)
+            [
+                np.exp(-ai * (r - Rm) ** 2 - aj * (r - Rn) ** 2)
+                for Rn in [R1, R2]
+                for aj in self.alpha
+                for Rm in [R1, R2]
+                for ai in self.alpha
+            ]
+        ).reshape(8, 8)
         coeff_mat = np.outer(coeff, coeff)  # 8x8 matrix
         return np.tensordot(phi_phi_mat, coeff_mat, axes=2)
 
@@ -137,6 +168,7 @@ class HydrogenMolecule(object):
         coeff_matrix = np.outer(eigvecs, eigvecs)
         s_ij = self.construct_eig_problem(R1, R2)[1]
         return np.tensordot(coeff_matrix, s_ij)
+
 
 # With He basis
 # h2 = HydrogenMolecule(alpha_he, trial)

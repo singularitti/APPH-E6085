@@ -11,7 +11,7 @@ from scipy.integrate import quad
 from scipy.linalg import eigh
 from tabulate import tabulate
 
-plt.style.use('classic')
+plt.style.use("classic")
 
 alpha_1 = np.array([13])
 alpha_2 = np.array([13, 1.96])
@@ -23,7 +23,14 @@ my_path = os.path.abspath(__file__ + "/../../")
 def eigenvalue_problem(alpha):
     # Hamiltonian
     def hamil_integrand(r, a, b):
-        return 4 * np.pi * (-1 + 3 * a * r - 2 * a ** 2 * r ** 3) / r * np.exp(-(a + b) * r ** 2) * r ** 2
+        return (
+            4
+            * np.pi
+            * (-1 + 3 * a * r - 2 * a**2 * r**3)
+            / r
+            * np.exp(-(a + b) * r**2)
+            * r**2
+        )
 
     def hamiltonian(a, b):
         return quad(hamil_integrand, 0.0, np.inf, args=(a, b))[0]
@@ -37,7 +44,7 @@ def eigenvalue_problem(alpha):
 
     # Overlap intergral
     def overlap_integrand(r, a, b):
-        return 4 * np.pi * np.exp(-(a + b) * r ** 2) * r ** 2
+        return 4 * np.pi * np.exp(-(a + b) * r**2) * r**2
 
     def overlap(a, b):
         return quad(overlap_integrand, 0.0, np.inf, args=(a, b))[0]
@@ -63,7 +70,7 @@ def ground_state_wave_func(alpha):
 
     eigvec = eigenvalue_problem(alpha)
     eigvec = renormalize_eigvec(eigvec)
-    basis = np.array([np.exp(- a * r ** 2) for a in alpha])
+    basis = np.array([np.exp(-a * r**2) for a in alpha])
     return np.dot(eigvec, basis)
 
 
@@ -74,14 +81,13 @@ def exact_value(rr):
 # Plot
 r = np.linspace(0, 3, endpoint=True, num=500)
 plt.figure()
-plt.plot(r, ground_state_wave_func(alpha_1), label=r'$n=1$')
-plt.plot(r, -ground_state_wave_func(alpha_2),
-         label=r'$n=2$')  # Must add minus sign
-plt.plot(r, ground_state_wave_func(alpha_3), label=r'$n=3$')
-plt.plot(r, ground_state_wave_func(alpha_4), label=r'$n=4$')
-plt.plot(r, list(map(exact_value, r)), label=r'exact value')
-plt.xlabel(r'$r$ (Bohr)', fontsize=16)
-plt.ylabel(r'wave function', fontsize=16)
+plt.plot(r, ground_state_wave_func(alpha_1), label=r"$n=1$")
+plt.plot(r, -ground_state_wave_func(alpha_2), label=r"$n=2$")  # Must add minus sign
+plt.plot(r, ground_state_wave_func(alpha_3), label=r"$n=3$")
+plt.plot(r, ground_state_wave_func(alpha_4), label=r"$n=4$")
+plt.plot(r, list(map(exact_value, r)), label=r"exact value")
+plt.xlabel(r"$r$ (Bohr)", fontsize=16)
+plt.ylabel(r"wave function", fontsize=16)
 plt.ylim((-0.05, 1.05))
 plt.legend(loc="best")
 # plt.show()

@@ -12,13 +12,33 @@ from scipy.linalg import eigh
 from scipy.special import erf
 
 my_path = os.path.abspath(__file__ + "/../../")
-plt.style.use('classic')
+plt.style.use("classic")
 
 alpha = np.array([0.298073, 1.242567, 5.782948, 38.474970])
-trial_1 = np.array([0.08088997, 0.2352165, 0.11090607, 0.06835098,
-                    0.08088997, 0.2352165, 0.11090607, 0.06835098])  # eigenvector from 3(a)
-trail_2 = np.array([0.46822748, 0.15162621, 0.07288406, 0.03556809,
-                    -0.46822748, -0.15162621, -0.07288406, -0.03556809])  # eigenvector from 3(a)
+trial_1 = np.array(
+    [
+        0.08088997,
+        0.2352165,
+        0.11090607,
+        0.06835098,
+        0.08088997,
+        0.2352165,
+        0.11090607,
+        0.06835098,
+    ]
+)  # eigenvector from 3(a)
+trail_2 = np.array(
+    [
+        0.46822748,
+        0.15162621,
+        0.07288406,
+        0.03556809,
+        -0.46822748,
+        -0.15162621,
+        -0.07288406,
+        -0.03556809,
+    ]
+)  # eigenvector from 3(a)
 iteration = 1
 R = np.linspace(0.01, 3, num=100, endpoint=True)  # nuclear distance
 r = np.linspace(-3, 3, num=100, endpoint=True)  # electron distance
@@ -38,8 +58,7 @@ class HydrogenMolecule(object):
         """
         tmp_1 = ai * aj / (ai + aj)
         tmp_2 = tmp_1 * (Rm - Rn) ** 2
-        return (np.pi / (ai + aj)) ** (3 / 2) * \
-               np.exp(-tmp_2) * tmp_1 * (3 - 2 * tmp_2)
+        return (np.pi / (ai + aj)) ** (3 / 2) * np.exp(-tmp_2) * tmp_1 * (3 - 2 * tmp_2)
 
     @staticmethod
     def overlap(ai, aj, Rm, Rn):
@@ -89,7 +108,7 @@ class HydrogenMolecule(object):
         ijkl = ai + aj + ak + al
         Rp = (ai * Ra + ak * Rc) / ik
         Rq = (aj * Rb + al * Rd) / jl
-        tmp_0 = (2 * np.pi ** (5 / 2) / ik / jl / np.sqrt(ijkl))
+        tmp_0 = 2 * np.pi ** (5 / 2) / ik / jl / np.sqrt(ijkl)
         tmp_1 = ai * ak / ik
         tmp_2 = aj * al / jl
         tmp_3 = np.exp(-tmp_1 * (Ra - Rc) ** 2 - tmp_2 * (Rb - Rd) ** 2)
@@ -103,27 +122,33 @@ class HydrogenMolecule(object):
 
     def fock_matrix(self, R1, R2):
         # The order is crucial
-        return \
-            np.array(
-                [self.electron_elctron_interaction(ai, aj, ak, al, Ra, Rb, Rc, Rd)
-                 for Rd in [R1, R2]
-                 for al in self.alpha
-                 for Rb in [R1, R2]
-                 for aj in self.alpha
-                 for Rc in [R1, R2]
-                 for ak in self.alpha
-                 for Ra in [R1, R2]
-                 for ai in self.alpha], dtype=np.float64).reshape(8, 8, 8, 8) - \
-            np.array(
-                [self.electron_elctron_interaction(ai, aj, ak, al, Ra, Rb, Rc, Rd)
-                 for Rc in [R1, R2]
-                 for ak in self.alpha
-                 for Rb in [R1, R2]
-                 for aj in self.alpha
-                 for Rd in [R1, R2]
-                 for al in self.alpha
-                 for Ra in [R1, R2]
-                 for ai in self.alpha], dtype=np.float64).reshape(8, 8, 8, 8)
+        return np.array(
+            [
+                self.electron_elctron_interaction(ai, aj, ak, al, Ra, Rb, Rc, Rd)
+                for Rd in [R1, R2]
+                for al in self.alpha
+                for Rb in [R1, R2]
+                for aj in self.alpha
+                for Rc in [R1, R2]
+                for ak in self.alpha
+                for Ra in [R1, R2]
+                for ai in self.alpha
+            ],
+            dtype=np.float64,
+        ).reshape(8, 8, 8, 8) - np.array(
+            [
+                self.electron_elctron_interaction(ai, aj, ak, al, Ra, Rb, Rc, Rd)
+                for Rc in [R1, R2]
+                for ak in self.alpha
+                for Rb in [R1, R2]
+                for aj in self.alpha
+                for Rd in [R1, R2]
+                for al in self.alpha
+                for Ra in [R1, R2]
+                for ai in self.alpha
+            ],
+            dtype=np.float64,
+        ).reshape(8, 8, 8, 8)
 
     @jit
     def full_fock_matrix(self, R1, R2, coeff):
@@ -143,30 +168,45 @@ class HydrogenMolecule(object):
         :return: A tuple contains 2 8x8 numpy matrices
         """
         # The order of [Rn, aj, Rm, ai] is crucial, or matrix will not be positive definite
-        t_ij = np.array([self.kinetic_energy(ai, aj, Rm, Rn)
-                         for Rn in [R1, R2]
-                         for aj in self.alpha
-                         for Rm in [R1, R2]
-                         for ai in self.alpha])
+        t_ij = np.array(
+            [
+                self.kinetic_energy(ai, aj, Rm, Rn)
+                for Rn in [R1, R2]
+                for aj in self.alpha
+                for Rm in [R1, R2]
+                for ai in self.alpha
+            ]
+        )
 
-        e_n_ij = np.array([self.electron_nuclear_interaction(ai, aj, Rm, Rn, R1)
-                           for Rn in [R1, R2]
-                           for aj in self.alpha
-                           for Rm in [R1, R2]
-                           for ai in self.alpha]) + \
-                 np.array([self.electron_nuclear_interaction(ai, aj, Rm, Rn, R2)
-                           for Rn in [R1, R2]
-                           for aj in self.alpha
-                           for Rm in [R1, R2]
-                           for ai in self.alpha])
+        e_n_ij = np.array(
+            [
+                self.electron_nuclear_interaction(ai, aj, Rm, Rn, R1)
+                for Rn in [R1, R2]
+                for aj in self.alpha
+                for Rm in [R1, R2]
+                for ai in self.alpha
+            ]
+        ) + np.array(
+            [
+                self.electron_nuclear_interaction(ai, aj, Rm, Rn, R2)
+                for Rn in [R1, R2]
+                for aj in self.alpha
+                for Rm in [R1, R2]
+                for ai in self.alpha
+            ]
+        )
 
         fock_ij = self.full_fock_matrix(R1, R2, coeff)
 
-        s_ij = np.array([self.overlap(ai, aj, Rm, Rn)
-                         for Rn in [R1, R2]
-                         for aj in self.alpha
-                         for Rm in [R1, R2]
-                         for ai in self.alpha])
+        s_ij = np.array(
+            [
+                self.overlap(ai, aj, Rm, Rn)
+                for Rn in [R1, R2]
+                for aj in self.alpha
+                for Rm in [R1, R2]
+                for ai in self.alpha
+            ]
+        )
 
         n_n_ij = s_ij / abs(R1 - R2)
 
@@ -220,7 +260,9 @@ class HydrogenMolecule(object):
         eigvecs_2 = np.array([np.zeros(8) for i in range(niter)])
         total_es = np.zeros(niter)
         m_ij, s_ij = self.construct_eig_problem(R1, R2)  # Does not change
-        fock_ij = self.full_fock_matrix(R1, R2, self.trial)  # Only Fock changes in each loop
+        fock_ij = self.full_fock_matrix(
+            R1, R2, self.trial
+        )  # Only Fock changes in each loop
         fock_e = self.trial.dot(fock_ij).dot(self.trial)
 
         eigvecs_2[0] = self.trial

@@ -28,8 +28,14 @@ class HeliumAtom(object):
     # Hamiltonian, non-interaction part
     @staticmethod
     def hamil_integrand(rr, a, b):
-        return 4 * np.pi * (-2 + 3 * a * rr - 2 * a ** 2 * rr ** 3) \
-               / rr * np.exp(-(a + b) * rr ** 2) * rr ** 2
+        return (
+            4
+            * np.pi
+            * (-2 + 3 * a * rr - 2 * a**2 * rr**3)
+            / rr
+            * np.exp(-(a + b) * rr**2)
+            * rr**2
+        )
 
     def hamiltonian(self, a, b):
         return quad(self.hamil_integrand, 0.0, np.inf, args=(a, b))[0]
@@ -37,7 +43,7 @@ class HeliumAtom(object):
     # Overlap intergral
     @staticmethod
     def overlap_integrand(rr, a, b):
-        return 4 * np.pi * np.exp(-(a + b) * rr ** 2) * rr ** 2
+        return 4 * np.pi * np.exp(-(a + b) * rr**2) * rr**2
 
     def overlap(self, a, b):
         return quad(self.overlap_integrand, 0.0, np.inf, args=(a, b))[0]
@@ -49,11 +55,14 @@ class HeliumAtom(object):
 
     def hartree_matrix(self, alpha):
         tmp = np.array(
-            [self.hartree_integration(aa, bb, cc, dd)
-             for aa in alpha
-             for cc in alpha
-             for bb in alpha
-             for dd in alpha]).reshape(4, 4, 4, 4)
+            [
+                self.hartree_integration(aa, bb, cc, dd)
+                for aa in alpha
+                for cc in alpha
+                for bb in alpha
+                for dd in alpha
+            ]
+        ).reshape(4, 4, 4, 4)
         # The order of [aa, cc, bb, dd] is crucial
         return tmp
 
@@ -62,8 +71,9 @@ class HeliumAtom(object):
         return np.outer(coeff, coeff)
 
     def k_matrix(self, coeff):
-        return np.tensordot(self.coefficient_matrix(coeff),
-                            self.hartree_matrix(self.alpha), axes=2)
+        return np.tensordot(
+            self.coefficient_matrix(coeff), self.hartree_matrix(self.alpha), axes=2
+        )
 
     # Solve eigenvalue problem
     def construct_eigval_problem(self, alpha):
@@ -125,10 +135,8 @@ class HeliumAtom(object):
     # Density
     def density(self, rr, alpha, coeff):
         # This is not equal to overlap_integrand
-        vec_overlap_integrand = np.vectorize(
-            lambda rr, a, b: np.exp(-(a + b) * rr ** 2))
-        phi_phi_mat = np.array(
-            [vec_overlap_integrand(rr, a, alpha) for a in alpha])
+        vec_overlap_integrand = np.vectorize(lambda rr, a, b: np.exp(-(a + b) * rr**2))
+        phi_phi_mat = np.array([vec_overlap_integrand(rr, a, alpha) for a in alpha])
         coeff_mat = self.coefficient_matrix(coeff)
         # Elementwise product, then sum all
         return np.multiply(coeff_mat, phi_phi_mat).sum()
@@ -139,7 +147,7 @@ eigvals, total_e, eigvecs = he.self_consistency_loop(iteration)
 
 # Plot
 # Total energy as a function of interactions
-plt.style.use('classic')
+plt.style.use("classic")
 
 
 def my_plot_1():
@@ -149,8 +157,8 @@ def my_plot_1():
     plt.ylim((-2.89, -2.85))
     ml = MultipleLocator(1)
     plt.axes().xaxis.set_minor_locator(ml)
-    plt.xlabel(r'$n$', fontsize=16)
-    plt.ylabel(r'$\varepsilon$ (Hartree)', fontsize=16)
+    plt.xlabel(r"$n$", fontsize=16)
+    plt.ylabel(r"$\varepsilon$ (Hartree)", fontsize=16)
     # plt.show()
     fig1.savefig(my_path + "/images/pro_2_b_1.pdf")
 
@@ -159,12 +167,12 @@ def my_plot_1():
 def my_plot_2():
     r = np.linspace(0, 3, endpoint=True, num=500)
     fig2 = plt.figure()
-    plt.plot(r, [he.density(rr, alpha, eigvecs[-1]) for rr in r],
-             label=r'interaction value')
-    plt.plot(r, [mod.density(rr, alpha) for rr in r],
-             label=r'non-interaction value')
-    plt.xlabel(r'$r$ (Bohr)', fontsize=16)
-    plt.ylabel(r'Density $|\psi(r)|^2$', fontsize=16)
+    plt.plot(
+        r, [he.density(rr, alpha, eigvecs[-1]) for rr in r], label=r"interaction value"
+    )
+    plt.plot(r, [mod.density(rr, alpha) for rr in r], label=r"non-interaction value")
+    plt.xlabel(r"$r$ (Bohr)", fontsize=16)
+    plt.ylabel(r"Density $|\psi(r)|^2$", fontsize=16)
     plt.legend(loc="best")
     # plt.show()
     fig2.savefig(my_path + "/images/pro_2_b_2.pdf")
@@ -172,7 +180,7 @@ def my_plot_2():
 
 # Write to Excel
 def write_to_excel():
-    np.savetxt(my_path + "/code/2-b-eigvecs.csv", eigvecs, delimiter=',')
+    np.savetxt(my_path + "/code/2-b-eigvecs.csv", eigvecs, delimiter=",")
     workbook = xlsxwriter.Workbook(my_path + "/code/2_b.xlsx")
     worksheet = workbook.add_worksheet()
     row = 0
@@ -182,6 +190,7 @@ def write_to_excel():
         worksheet.write_column(row + 1, col, data)
 
     workbook.close()
+
 
 # my_plot_1()
 # my_plot_2()
