@@ -3,21 +3,32 @@
 % !BIB program = bibtex
 % !TEX spellcheck = en_US
 \documentclass[12pt]{article}
-\usepackage{url}
-\usepackage{amsmath}
-\usepackage{graphicx}
-\usepackage{subfigure}
-\graphicspath{{images/}}
-\usepackage{fancyhdr}
-\usepackage{enumerate}
+
 \usepackage[letterpaper, margin=1in]{geometry}
-\usepackage{siunitx}
+\usepackage{fancyhdr}
+
+\usepackage{graphicx}
+\graphicspath{{images/}}
+\usepackage{subfigure}
+
 \usepackage{hyperref}
+\usepackage[symbol]{footmisc}  % Footnote symbol
+\usepackage{relsize}
+
+\usepackage{amsmath}
 \usepackage{bm}
 \usepackage{braket}
+\usepackage{enumerate}
 \usepackage[version=4]{mhchem}
-\usepackage[symbol]{footmisc}  % footnote symbol
-\usepackage{relsize}
+\usepackage{siunitx}
+
+\usepackage[USenglish]{babel} % Regionalize hyphens, quote marks, etc automatically
+\usepackage[strict,autostyle]{csquotes} % Smart and nestable quote marks
+\usepackage{microtype} % Improve text appearance with kerning, etc
+% See https://tex.stackexchange.com/a/513543 and https://tex.stackexchange.com/a/528864
+% and https://tex.stackexchange.com/a/425099
+\usepackage[math-style=ISO,bold-style=ISO]{unicode-math}
+\usepackage{kpfonts-otf}
 
 \sisetup{inter-unit-product=\ensuremath{{}\cdot{}}}
 \DeclareTextCommand{\nobreakspace}{T1}{\leavevmode\nobreak\ }
