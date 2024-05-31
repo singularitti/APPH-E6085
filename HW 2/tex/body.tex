@@ -95,7 +95,7 @@ Then solve for different set of eigenvalues, we derive Table~\ref{tab:1-a}.
     \label{tab:1-a}
 \end{table}
 
-Since exact value is $\SI{-13.6}{\electronvolt} \approx \SI{-0.5}{\hartree}$, so the result of
+Since exact value is $\qty{-13.6}{\electronvolt} \approx \qty{-0.5}{\hartree}$, so the result of
 $4$ bases is very close to it, but not with less bases. See Figure~\ref{fig:pro1a} for reference.
 
 % \begin{figure}[h]
@@ -109,7 +109,7 @@ $4$ bases is very close to it, but not with less bases. See Figure~\ref{fig:pro1
 
 For the energy of the first excited state (i.e., the second lowest eigenvalue) as a function
 of $n$, see Table~\ref{tab:1-b} and Figure~\ref{fig:pro1b} for reference. Again, the exact
-value is $\SI{-3.4}{\electronvolt} \approx \SI{-0.125}{\hartree}$. Now this time even with
+value is $\qty{-3.4}{\electronvolt} \approx \qty{-0.125}{\hartree}$. Now this time even with
 $4$ bases, the energy is still far from exact value.
 
 \begin{table}[h]
@@ -177,7 +177,7 @@ Construct single-electron wave function with $4$ bases,
 \end{equation}
 %
 where $c_i, i=1,2,3,4$, are real numbers.
-Now the ground state energy is \SI{-1.99426616}{\electronvolt}. The density is
+Now the ground state energy is \qty{-1.99426616}{\electronvolt}. The density is
 %
 \begin{equation}\label{eq:density}
     \lvert \psi(\symbf{r}) \rvert^2 = \psi^\ast(\symbf{r}) \psi(\symbf{r}) =
@@ -248,7 +248,7 @@ as trial function (last question result), and
     \begin{aligned}
         \int \frac{\psi_2^\ast(\symbf{r}_2)\psi_2(\symbf{r}_2)}{\lvert \symbf{r}_1 - \symbf{r}_2 \rvert} d\symbf{r}_2
          & = \sum_{i, j} c_i^\ast c_j \int
-        \frac{\phi_i^\ast(r_2) \phi_j(r_2)}{\lvert \symbf{r}_1 - \symbf{r}_2 \rvert} \, d\symbf{r}_2 \\
+        \frac{\phi_i^\ast(r_2) \phi_j(r_2)}{\lvert \symbf{r}_1 - \symbf{r}_2 \rvert} \, d\symbf{r}_2    \\
          & = \sum_{i, j} 2\pi c_i^\ast c_j \scaleint{7ex}_{\bs 0}^{\infty} \scaleint{7ex}_{\bs 0}^{\pi}
         \frac{\phi_i^\ast(r_2) \phi_j(r_2)}{\sqrt{r_1^2 + r_2^2 - 2 r_1 r_2 \cos\theta}}
         r_2^2 \sin \theta\, d\theta\, dr_2.
@@ -403,7 +403,7 @@ The total energy is
 %
 here the second term is calculated twice in eigenvalue, so subtract it.
 
-When $\lvert \symbf{R}_1 - \symbf{R}_2 \rvert = \SI{1.020}{\bohr}$, the eigenvalue is \SI{-1.88723984843}{\hartree}.
+When $\lvert \symbf{R}_1 - \symbf{R}_2 \rvert = \qty{1.020}{\bohr}$, the eigenvalue is \qty{-1.88723984843}{\hartree}.
 See Figure~\ref{fig:pro3a} for reference.
 
 % \begin{figure}[h]
@@ -487,8 +487,8 @@ we need to subtract Hartree energy.
 
 See Figure~\ref{fig:3-b:mini:subfig:a} and Figure~\ref{fig:3-b:mini:subfig:b}
 for reference. The minimum point is when
-$\lvert \symbf{R}_1- \symbf{R}_2 \rvert = \SI{1.3462}{\bohr}$
-(close to experiment value \SI{1.401}{\bohr}), the corresponding energy is \SI{-1.1129}{\hartree}.
+$\lvert \symbf{R}_1- \symbf{R}_2 \rvert = \qty{1.3462}{\bohr}$
+(close to experiment value \qty{1.401}{\bohr}), the corresponding energy is \qty{-1.1129}{\hartree}.
 
 \subsection*{(c)}
 
