@@ -17,6 +17,11 @@
 \usepackage{hyperref}
 \usepackage{relsize}
 
+% See https://tex.stackexchange.com/a/116885
+\usepackage{scalerel}
+\def\scaleint#1{\vcenter{\hbox{\scaleto[3ex]{\displaystyle\int}{#1}}}}
+\def\bs{\mkern-15mu} % Set amount of backspacing for lower limit of integration
+
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{braket}

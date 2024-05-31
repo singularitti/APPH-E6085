@@ -249,8 +249,8 @@ as trial function (last question result), and
         \int \frac{\psi_2^\ast(\symbf{r}_2)\psi_2(\symbf{r}_2)}{\lvert \symbf{r}_1 - \symbf{r}_2 \rvert} d\symbf{r}_2
          & = \sum_{i, j} c_i^\ast c_j \int
         \frac{\phi_i^\ast(r_2) \phi_j(r_2)}{\lvert \symbf{r}_1 - \symbf{r}_2 \rvert} \, d\symbf{r}_2 \\
-         & = \sum_{i, j} 2\pi c_i^\ast c_j \int_{0}^{\infty} \int_{0}^{\pi}
-        \tfrac{\phi_i^\ast(r_2) \phi_j(r_2)}{\sqrt{r_1^2 + r_2^2 - 2 r_1 r_2 \cos\theta}}
+         & = \sum_{i, j} 2\pi c_i^\ast c_j \scaleint{7ex}_{\bs 0}^{\infty} \scaleint{7ex}_{\bs 0}^{\pi}
+        \frac{\phi_i^\ast(r_2) \phi_j(r_2)}{\sqrt{r_1^2 + r_2^2 - 2 r_1 r_2 \cos\theta}}
         r_2^2 \sin \theta\, d\theta\, dr_2.
     \end{aligned}
 \end{equation}
@@ -278,9 +278,10 @@ $S_{ij} = \braket{\phi_i | \phi_j}$, and
 %
 \begin{equation}
     K_{ij} = \sum_{m, n} 8\pi^2 c_m^\ast c_n
-    \int_{0}^{\infty} r_1^2  \, dr_1
-    \int_{0}^{\infty} r_2^2 \, dr_2 \int_{0}^{\pi}
-    \tfrac{\phi_i^\ast(r_1) \phi_m^\ast(r_2) \phi_n(r_2)\phi_j(r_1)}{\sqrt{r_1^2 + r_2^2 - 2 r_1 r_2 \cos\theta}}
+    \scaleint{7ex}_{\bs 0}^{\infty} r_1^2 \, dr_1
+    \scaleint{7ex}_{\bs 0}^{\infty} r_2^2 \, dr_2
+    \scaleint{7ex}_{\bs 0}^{\pi}
+    \frac{\phi_i^\ast(r_1) \phi_m^\ast(r_2) \phi_n(r_2)\phi_j(r_1)}{\sqrt{r_1^2 + r_2^2 - 2 r_1 r_2 \cos\theta}}
     \sin\theta\, d\theta.
 \end{equation}
 
@@ -447,8 +448,10 @@ where
 %
 \begin{multline}
     H_{ij, mn} = \sum_{\substack{p, q\\u, v}} 8\pi^2 c_{p, u}^\ast c_{q, v}
-    \! \int_{0}^{\infty} r_1^2 \, dr_1 \! \int_{0}^{\infty} r_2^2 \, dr_2 \! \int_{0}^{\pi}
-    \tfrac{\bigl( \phi_i^{R_m} \bigr)^\ast(r_1) \bigl(\phi_p^{R_u} \bigr)^\ast(r_2)%
+    \! \scaleint{7ex}_{\bs 0}^{\infty} r_1^2 \, dr_1
+    \! \scaleint{7ex}_{\bs 0}^{\infty} r_2^2 \, dr_2
+    \! \scaleint{7ex}_{\bs 0}^{\pi}
+    \frac{\bigl( \phi_i^{R_m} \bigr)^\ast(r_1) \bigl(\phi_p^{R_u} \bigr)^\ast(r_2)%
         \phi_q^{R_v}(r_2)\phi_j^{R_n}(r_1)}{\sqrt{r_1^2 + r_2^2 - 2 r_1 r_2 \cos\theta}}
     \sin\theta\, d\theta
 \end{multline}
@@ -525,8 +528,10 @@ where
 %
 \begin{multline}
     F_{ij, mn} = \sum_{\substack{p, q\\u, v}} 8\pi^2 c_{p, u}^\ast c_{q, v}
-    \! \int_{0}^{\infty} r_1^2  \, dr_1 \! \int_{0}^{\infty} r_2^2 \, dr_2 \! \int_{0}^{\pi}
-    \frac{\sin\theta\, d\theta}{\mathsmaller{\sqrt{r_1^2 + r_2^2 - 2 r_1 r_2 \cos\theta}}}\\
+    \! \scaleint{7ex}_{\bs 0}^{\infty} r_1^2  \, dr_1
+    \! \scaleint{7ex}_{\bs 0}^{\infty} r_2^2 \, dr_2
+    \! \scaleint{7ex}_{\bs 0}^{\pi}
+    \frac{\sin\theta\, d\theta}{\sqrt{r_1^2 + r_2^2 - 2 r_1 r_2 \cos\theta}}\\
     \cdot \Bigl(
     \bigl( \phi_i^{R_m} \bigr)^\ast(r_1) \bigl(\phi_p^{R_u} \bigr)^\ast(r_2) \phi_q^{R_v}(r_2)\phi_j^{R_n}(r_1)\\
     - \bigl( \phi_i^{R_m} \bigr)^\ast(r_1) \bigl(\phi_p^{R_u} \bigr)^\ast(r_2) \phi_j^{R_n}(r_2)\phi_q^{R_v}(r_1)
