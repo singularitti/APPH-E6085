@@ -10,7 +10,24 @@ from scipy.linalg import eigh
 
 
 # Hamiltonian
-def hamiltonian_integrand(r, a, b):
+def hamiltonian_integrand(r: float, a: float, b: float):
+    """
+    Compute the integrand for the Hamiltonian using the given parameters.
+
+    This function calculates the integrand for the Hamiltonian with the formula:
+
+    .. math::
+
+        4\\pi \\left( \\frac{-1 + 3a r - 2a^2 r^3}{r} \\right) e^{-(a + b)r^2} r^2
+
+    Args:
+        r (float): The radial distance.
+        a (float): Parameter 'a' in the integrand formula.
+        b (float): Parameter 'b' in the integrand formula.
+
+    Returns:
+        float: The computed value of the integrand.
+    """
     return (
         4
         * np.pi
