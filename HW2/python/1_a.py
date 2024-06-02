@@ -42,25 +42,21 @@ def hamiltonian(a, b):
     return quad(hamiltonian_integrand, 0.0, np.inf, args=(a, b))[0]
 
 
+def overlap_integrand(r, a, b):
+    return 4 * np.pi * np.exp(-(a + b) * r**2) * r**2
+
+
+def overlap(a, b):
+    return quad(overlap_integrand, 0.0, np.inf, args=(a, b))[0]
+
+
 def eigenvalue_problem(alpha):
     # Vectorize the table-like function
     vec_hamiltonian = np.vectorize(hamiltonian)
     h_ij = [vec_hamiltonian(a, alpha) for a in alpha]  # Speed-up
-
-    # print(tabulate(h_ij, tablefmt="latex"))
-
-    # Overlap intergral
-    def overlap_integrand(r, a, b):
-        return 4 * np.pi * np.exp(-(a + b) * r**2) * r**2
-
-    def overlap(a, b):
-        return quad(overlap_integrand, 0.0, np.inf, args=(a, b))[0]
-
     # Vectorize the table-like function
     vec_overlap = np.vectorize(overlap)
     s_ij = [vec_overlap(a, alpha) for a in alpha]
-    # print(tabulate(s_ij, tablefmt="latex"))
-
     # Generalized eigenvalue Problem H x = E S x
     eigvals, eigvecs = eigh(h_ij, s_ij, eigvals_only=False)
     return eigvals, eigvecs
