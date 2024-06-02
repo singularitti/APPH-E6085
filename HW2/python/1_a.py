@@ -1,21 +1,12 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 """Problem 1(a).
 Plot the ground state energy as a function of $n$.
 """
-
-import os
 
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.integrate import quad
 from scipy.linalg import eigh
-
-plt.style.use("classic")
-
-alpha_1 = np.array([13])
-alpha_2 = np.array([13, 1.96])
-alpha_3 = np.array([13, 1.96, 0.44])
-alpha_4 = np.array([13, 1.96, 0.44, 0.12])
 
 
 def eigenvalue_problem(alpha):
@@ -56,21 +47,25 @@ def eigenvalue_problem(alpha):
     return eigvals, eigvecs
 
 
-# Plot
-energy = [
-    eigenvalue_problem(alpha_1)[0][0],
-    eigenvalue_problem(alpha_2)[0][0],
-    eigenvalue_problem(alpha_3)[0][0],
-    eigenvalue_problem(alpha_4)[0][0],
-]
-n = [1, 2, 3, 4]
+if __name__ == "__main__":
+    alpha_1 = np.array([13])
+    alpha_2 = np.array([13, 1.96])
+    alpha_3 = np.array([13, 1.96, 0.44])
+    alpha_4 = np.array([13, 1.96, 0.44, 0.12])
+    energy = [
+        eigenvalue_problem(alpha_1)[0][0],
+        eigenvalue_problem(alpha_2)[0][0],
+        eigenvalue_problem(alpha_3)[0][0],
+        eigenvalue_problem(alpha_4)[0][0],
+    ]
+    n = [1, 2, 3, 4]
 
-plt.figure()
-plt.plot(n, energy)
-plt.xticks(n)
-plt.xlabel(r"$n$", fontsize=16)
-plt.ylabel(r"$E$ (Hartree)", fontsize=16)
-# plt.show()
-print((eigenvalue_problem(alpha_4)[1][:, 0]))
-my_path = os.path.abspath(__file__ + "/../../")
-plt.savefig(my_path + "/images/pro_1_a.pdf")
+    plt.figure()
+    plt.plot(n, energy)
+    plt.xticks(n)
+    plt.xlabel(r"$n$", fontsize=16)
+    plt.ylabel(r"$E$ (Hartree)", fontsize=16)
+    plt.show()
+    print((eigenvalue_problem(alpha_4)[1][:, 0]))
+    # my_path = os.path.abspath(__file__ + "/../../")
+    # plt.savefig(my_path + "/images/pro_1_a.pdf")
