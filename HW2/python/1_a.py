@@ -9,7 +9,6 @@ from scipy.integrate import quad
 from scipy.linalg import eigh
 
 
-# Hamiltonian
 def hamiltonian_integrand(r: float, a: float, b: float) -> float:
     """
     Compute the integrand for the Hamiltonian using the given parameters.
@@ -38,6 +37,7 @@ def hamiltonian_integrand(r: float, a: float, b: float) -> float:
     )
 
 
+@np.vectorize
 def hamiltonian(a, b):
     return quad(hamiltonian_integrand, 0.0, np.inf, args=(a, b))[0]
 
@@ -63,17 +63,15 @@ def overlap_integrand(r: float, a: float, b: float) -> float:
     return 4 * np.pi * np.exp(-(a + b) * r**2) * r**2
 
 
+@np.vectorize
 def overlap(a, b):
     return quad(overlap_integrand, 0.0, np.inf, args=(a, b))[0]
 
 
 def eigenvalue_problem(alpha):
+    h_ij = [hamiltonian(a, alpha) for a in alpha]  # Speed-up
     # Vectorize the table-like function
-    vec_hamiltonian = np.vectorize(hamiltonian)
-    h_ij = [vec_hamiltonian(a, alpha) for a in alpha]  # Speed-up
-    # Vectorize the table-like function
-    vec_overlap = np.vectorize(overlap)
-    s_ij = [vec_overlap(a, alpha) for a in alpha]
+    s_ij = [overlap(a, alpha) for a in alpha]
     # Generalized eigenvalue Problem H x = E S x
     eigvals, eigvecs = eigh(h_ij, s_ij, eigvals_only=False)
     return eigvals, eigvecs
