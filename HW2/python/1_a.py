@@ -9,21 +9,23 @@ from scipy.integrate import quad
 from scipy.linalg import eigh
 
 
+# Hamiltonian
+def hamiltonian_integrand(r, a, b):
+    return (
+        4
+        * np.pi
+        * (-1 + 3 * a * r - 2 * a**2 * r**3)
+        / r
+        * np.exp(-(a + b) * r**2)
+        * r**2
+    )
+
+
+def hamiltonian(a, b):
+    return quad(hamiltonian_integrand, 0.0, np.inf, args=(a, b))[0]
+
+
 def eigenvalue_problem(alpha):
-    # Hamiltonian
-    def hamil_integrand(r, a, b):
-        return (
-            4
-            * np.pi
-            * (-1 + 3 * a * r - 2 * a**2 * r**3)
-            / r
-            * np.exp(-(a + b) * r**2)
-            * r**2
-        )
-
-    def hamiltonian(a, b):
-        return quad(hamil_integrand, 0.0, np.inf, args=(a, b))[0]
-
     # Vectorize the table-like function
     vec_hamiltonian = np.vectorize(hamiltonian)
     h_ij = [vec_hamiltonian(a, alpha) for a in alpha]  # Speed-up
