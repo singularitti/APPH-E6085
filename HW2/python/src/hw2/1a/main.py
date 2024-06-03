@@ -9,7 +9,7 @@ from scipy.integrate import quad
 from scipy.linalg import eigh
 
 
-def hamiltonian_integrand(r: float, a: float, b: float) -> float:
+def hamiltonian_integrand(r: float, αᵢ: float, αⱼ: float) -> float:
     """
     Compute the integrand for the Hamiltonian using the given parameters.
 
@@ -17,32 +17,25 @@ def hamiltonian_integrand(r: float, a: float, b: float) -> float:
 
     .. math::
 
-        4\\pi \\left( \\frac{-1 + 3a r - 2a^2 r^3}{r} \\right) e^{-(a + b)r^2} r^2
+        4\\pi r^2 \\left(\\frac{3\\alpha_j r - 2\\alpha_j^2 r^3 - 1}{r}\\right) e^{-(\\alpha_i + \\alpha_j)r^2}
 
     Args:
         r (float): The radial distance.
-        a (float): Parameter 'a' in the integrand formula.
-        b (float): Parameter 'b' in the integrand formula.
+        αᵢ (float): Parameter :math:`\\alpha_i` in the integrand formula.
+        αⱼ (float): Parameter :math:`\\alpha_j` in the integrand formula.
 
     Returns:
         float: The computed value of the integrand.
     """
-    return (
-        4
-        * np.pi
-        * (-1 + 3 * a * r - 2 * a**2 * r**3)
-        / r
-        * np.exp(-(a + b) * r**2)
-        * r**2
-    )
+    return 4 * np.pi * r * (3 * αⱼ * r - 2 * αⱼ**2 * r**3 - 1) * np.exp(-(αᵢ + αⱼ) * r**2)
 
 
 @np.vectorize
-def hamiltonian(a, b):
-    return quad(hamiltonian_integrand, 0.0, np.inf, args=(a, b))[0]
+def hamiltonian(αᵢ, αⱼ):
+    return quad(hamiltonian_integrand, 0.0, np.inf, args=(αᵢ, αⱼ))[0]
 
 
-def overlap_integrand(r: float, a: float, b: float) -> float:
+def overlap_integrand(r: float, αᵢ: float, αⱼ: float) -> float:
     """
     Compute the overlap integrand using the given parameters.
 
@@ -50,28 +43,28 @@ def overlap_integrand(r: float, a: float, b: float) -> float:
 
     .. math::
 
-        4 \\pi e^{-(a + b)r^2} r^2
+        4\\pi r^2 e^{-(\\alpha_i + \\alpha_j)r^2}
 
     Args:
         r (float): The radial distance.
-        a (float): Parameter 'a' in the integrand formula.
-        b (float): Parameter 'b' in the integrand formula.
+        αᵢ (float): Parameter :math:`\\alpha_i` in the integrand formula.
+        αⱼ (float): Parameter :math:`\\alpha_j` in the integrand formula.
 
     Returns:
         float: The computed value of the integrand.
     """
-    return 4 * np.pi * np.exp(-(a + b) * r**2) * r**2
+    return 4 * np.pi * r**2 * np.exp(-(αᵢ + αⱼ) * r**2)
 
 
 @np.vectorize
-def overlap(a, b):
-    return quad(overlap_integrand, 0.0, np.inf, args=(a, b))[0]
+def overlap(αᵢ, αⱼ):
+    return quad(overlap_integrand, 0.0, np.inf, args=(αᵢ, αⱼ))[0]
 
 
-def construct_problem(alphas):
-    h_ij = np.asfarray([hamiltonian(a, alphas) for a in alphas])  # Speed-up
+def construct_problem(𝛂):
+    h_ij = np.asfarray([hamiltonian(α, 𝛂) for α in 𝛂])  # Speed-up
     # Vectorize the table-like function
-    s_ij = np.asfarray([overlap(a, alphas) for a in alphas])
+    s_ij = np.asfarray([overlap(α, 𝛂) for α in 𝛂])
     return h_ij, s_ij
 
 
