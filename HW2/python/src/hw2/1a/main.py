@@ -1,12 +1,14 @@
 #!/usr/bin/env python
-"""Problem 1(a).
-Plot the ground state energy as a function of $n$.
-"""
+"""Solve"""
 
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.integrate import quad
 from scipy.linalg import eigh
+
+
+def basis(alphas, r):
+    return np.asarray([np.exp(-alpha * r**2) for alpha in alphas])
 
 
 def hamiltonian_integrand(r: float, αᵢ: float, αⱼ: float) -> float:
@@ -71,7 +73,15 @@ def construct_problem(𝛂):
 def solve_problem(h_ij, s_ij):
     # Generalized eigenvalue Problem H x = E S x
     eigvals, eigvecs = eigh(h_ij, s_ij, eigvals_only=False)
-    return eigvals, eigvecs
+    return eigvals, np.asarray(np.apply_along_axis(renormalize_eigvec, axis=0, arr=eigvecs))
+
+
+# Scipy doesn't give wanted sign of eigenvectors, so change sign manually
+def renormalize_eigvec(eigvec):
+    if len([x for x in eigvec if x < 0]) > len(eigvec) / 2:
+        return -eigvec
+    else:
+        return eigvec
 
 
 if __name__ == "__main__":
