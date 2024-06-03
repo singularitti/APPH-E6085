@@ -64,10 +64,10 @@ def overlap(αᵢ, αⱼ):
 
 
 def construct_problem(𝛂):
-    h_ij = np.asfarray([hamiltonian(α, 𝛂) for α in 𝛂])  # Speed-up
+    Hᵢⱼ = np.asfarray([hamiltonian(α, 𝛂) for α in 𝛂])  # Speed-up
     # Vectorize the table-like function
-    s_ij = np.asfarray([overlap(α, 𝛂) for α in 𝛂])
-    return h_ij, s_ij
+    Sᵢⱼ = np.asfarray([overlap(α, 𝛂) for α in 𝛂])
+    return Hᵢⱼ, Sᵢⱼ
 
 
 def solve_problem(h_ij, s_ij):
