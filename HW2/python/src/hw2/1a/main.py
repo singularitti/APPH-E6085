@@ -7,8 +7,8 @@ from scipy.integrate import quad
 from scipy.linalg import eigh
 
 
-def basis(alphas, r):
-    return np.asarray([np.exp(-alpha * r**2) for alpha in alphas])
+def basis(𝛂, r):
+    return np.asarray([np.exp(-α * r**2) for α in 𝛂])
 
 
 def hamiltonian_integrand(r: float, αᵢ: float, αⱼ: float) -> float:
@@ -33,7 +33,7 @@ def hamiltonian_integrand(r: float, αᵢ: float, αⱼ: float) -> float:
 
 
 @np.vectorize
-def hamiltonian(αᵢ, αⱼ):
+def hamiltonian(αᵢ: float, αⱼ: float) -> float:
     return quad(hamiltonian_integrand, 0.0, np.inf, args=(αᵢ, αⱼ))[0]
 
 
@@ -59,7 +59,7 @@ def overlap_integrand(r: float, αᵢ: float, αⱼ: float) -> float:
 
 
 @np.vectorize
-def overlap(αᵢ, αⱼ):
+def overlap(αᵢ: float, αⱼ: float) -> float:
     return quad(overlap_integrand, 0.0, np.inf, args=(αᵢ, αⱼ))[0]
 
 
@@ -70,9 +70,9 @@ def construct_problem(𝛂):
     return Hᵢⱼ, Sᵢⱼ
 
 
-def solve_problem(h_ij, s_ij):
+def solve_problem(Hᵢⱼ, Sᵢⱼ):
     # Generalized eigenvalue Problem H x = E S x
-    eigvals, eigvecs = eigh(h_ij, s_ij, eigvals_only=False)
+    eigvals, eigvecs = eigh(Hᵢⱼ, Sᵢⱼ, eigvals_only=False)
     return eigvals, np.asarray(np.apply_along_axis(renormalize_eigvec, axis=0, arr=eigvecs))
 
 
