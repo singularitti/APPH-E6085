@@ -7,6 +7,16 @@ from scipy.integrate import quad
 from scipy.linalg import eigh
 
 
+__all__ = [
+    "basis",
+    "hamiltonian",
+    "overlap",
+    "construct_problem",
+    "solve_problem",
+    "wavefunction",
+]
+
+
 def basis(𝛂, r):
     return np.asarray([np.exp(-α * r**2) for α in 𝛂])
 
