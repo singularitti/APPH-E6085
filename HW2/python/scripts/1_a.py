@@ -1,9 +1,12 @@
 #!/usr/bin/env python
 
 import matplotlib.pyplot as plt
+import matplotlib.style
 import numpy as np
 
-from hw2.ex1 import *
+from hw2.ex1 import construct_problem, solve_problem
+
+matplotlib.style.use("classic")
 
 if __name__ == "__main__":
     alpha_1 = np.asfarray([13])
@@ -14,13 +17,12 @@ if __name__ == "__main__":
     nbasis = list(map(len, alphas))
     problems = [construct_problem(alpha) for alpha in alphas]
     energies = [solve_problem(*problem)[0][0] for problem in problems]
+    print(energies)
 
     plt.figure()
     plt.plot(nbasis, energies)
     plt.xticks(nbasis)
     plt.xlabel(r"$n$", fontsize=16)
     plt.ylabel(r"$E$ (Hartree)", fontsize=16)
-    plt.show()
-    print((construct_problem(alpha_4)[1][:, 0]))
-    # my_path = os.path.abspath(__file__ + "/../../")
-    # plt.savefig(my_path + "/images/pro_1_a.pdf")
+    plt.title("Ground state energies as a function of the number of basis functions")
+    plt.savefig("1_a.pdf")
