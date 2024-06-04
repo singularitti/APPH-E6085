@@ -17,8 +17,12 @@ __all__ = [
 ]
 
 
-def basis(𝛂, r):
-    return np.asarray([np.exp(-α * r**2) for α in 𝛂])
+def basis(𝛂):
+    @np.vectorize
+    def _at(r):
+        return np.asarray([np.exp(-α * r**2) for α in 𝛂])
+
+    return _at
 
 
 def hamiltonian_integrand(r: float, αᵢ: float, αⱼ: float) -> float:
@@ -103,7 +107,13 @@ def renormalize_eigvec(eigvec):
         return eigvec
 
 
-def wavefunction(𝛂, r):
+def wavefunction(𝛂, i=0):
     _, eigvecs = solve_problem(*construct_problem(𝛂))
-    𝐛 = basis(𝛂, r)
-    return np.asarray([np.dot(eigvec, b) for eigvec, b in zip(eigvecs, 𝐛)])
+    eigvec = eigvecs[i]
+    𝐛 = basis(𝛂)
+
+    @np.vectorize
+    def _at(r):
+        return np.dot(eigvec, 𝐛(r))
+
+    return _at
