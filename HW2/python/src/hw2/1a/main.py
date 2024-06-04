@@ -84,6 +84,12 @@ def renormalize_eigvec(eigvec):
         return eigvec
 
 
+def wavefunction(𝛂, r):
+    _, eigvecs = solve_problem(*construct_problem(𝛂))
+    𝐛 = basis(𝛂, r)
+    return np.asarray([np.dot(eigvec, b) for eigvec, b in zip(eigvecs, 𝐛)])
+
+
 if __name__ == "__main__":
     alpha_1 = np.asfarray([13])
     alpha_2 = np.asfarray([13, 1.96])
