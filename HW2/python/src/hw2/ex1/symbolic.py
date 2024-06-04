@@ -6,6 +6,7 @@ r = sp.symbols("r", real=True, positive=True)
 alpha_i, alpha_j = sp.symbols("alpha_i alpha_j", real=True, positive=True)
 
 
+# Function to define the Gaussian basis functions
 def phi(alpha):
     return sp.exp(-alpha * r**2)
 
