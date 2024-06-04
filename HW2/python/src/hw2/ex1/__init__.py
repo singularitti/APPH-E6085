@@ -14,6 +14,7 @@ __all__ = [
     "construct_problem",
     "solve_problem",
     "wavefunction",
+    "exact_solution",
 ]
 
 
@@ -117,3 +118,7 @@ def wavefunction(𝛂, i=0):
         return np.dot(eigvec, 𝐛(r))
 
     return _at
+
+
+def exact_solution(rr):
+    return np.exp(-rr) / np.sqrt(np.pi)
