@@ -2,10 +2,11 @@
 """Solve"""
 
 import matplotlib.pyplot as plt
+import itertools
+
 import numpy as np
 from scipy.integrate import quad
-from scipy.linalg import eigh
-
+from scipy.linalg import eigh, ishermitian, issymmetric
 
 __all__ = [
     "basis",
@@ -73,10 +74,19 @@ def overlap(αᵢ: float, αⱼ: float) -> float:
     return quad(overlap_integrand, 0.0, np.inf, args=(αᵢ, αⱼ))[0]
 
 
+def create_matrix(f, xs, ys):
+    pairs = itertools.product(xs, ys)
+    result = np.fromiter((f(x, y) for x, y in pairs), dtype=float)
+    result = result.reshape(len(xs), len(ys))
+    return result
+
+
 def construct_problem(𝛂):
-    Hᵢⱼ = np.asfarray([hamiltonian(α, 𝛂) for α in 𝛂])  # Speed-up
+    Hᵢⱼ = create_matrix(hamiltonian, 𝛂, 𝛂)
+    assert ishermitian(Hᵢⱼ, rtol=1e-8)
     # Vectorize the table-like function
-    Sᵢⱼ = np.asfarray([overlap(α, 𝛂) for α in 𝛂])
+    Sᵢⱼ = create_matrix(overlap, 𝛂, 𝛂)
+    assert issymmetric(Sᵢⱼ, rtol=1e-8)
     return Hᵢⱼ, Sᵢⱼ
 
 
