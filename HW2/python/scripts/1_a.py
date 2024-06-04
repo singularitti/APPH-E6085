@@ -1,4 +1,7 @@
 #!/usr/bin/env python
+"""Problem 1(a).
+Plot the ground state energy as a function of $n$.
+"""
 
 import matplotlib.pyplot as plt
 import matplotlib.style

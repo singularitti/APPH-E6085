@@ -1,4 +1,7 @@
 #!/usr/bin/env python
+"""Problem 1(b).
+Plot the first excited state energy as a function of $n$.
+"""
 
 import matplotlib.pyplot as plt
 import matplotlib.style
