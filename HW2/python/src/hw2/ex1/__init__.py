@@ -99,15 +99,7 @@ def construct_problem(𝛂):
 def solve_problem(Hᵢⱼ, Sᵢⱼ):
     # Generalized eigenvalue Problem H x = E S x
     eigvals, eigvecs = eigh(Hᵢⱼ, Sᵢⱼ, eigvals_only=False)
-    return eigvals, np.asarray(np.apply_along_axis(renormalize_eigvec, axis=0, arr=eigvecs))
-
-
-# Scipy doesn't give wanted sign of eigenvectors, so change sign manually
-def renormalize_eigvec(eigvec):
-    if len([x for x in eigvec if x < 0]) > len(eigvec) / 2:
-        return -eigvec
-    else:
-        return eigvec
+    return eigvals, np.asarray(np.apply_along_axis(np.asarray, axis=0, arr=eigvecs))
 
 
 def wavefunction(𝛂, i=0):
