@@ -106,12 +106,27 @@ def wavefunction(𝛂, i=0):
     _, eigvecs = solve_problem(*construct_problem(𝛂))
     eigvec = eigvecs[i]
     𝐛 = basis(𝛂)
+    wfc = lambda r: np.dot(eigvec, 𝐛(r))
+    factor = normalization_factor(wfc)
 
     @np.vectorize
     def _at(r):
-        return np.dot(eigvec, 𝐛(r))
+        return wfc(r) / factor
 
     return _at
+
+
+def wavefunction_integrand(wfc):
+    @np.vectorize
+    def _at(r):
+        wfc_r = wfc(r)
+        return np.conjugate(wfc_r) * wfc_r * FOUR_PI * r**2
+
+    return _at
+
+
+def normalization_factor(wfc):
+    return np.sqrt(quad(wavefunction_integrand(wfc), 0, np.inf)[0])
 
 
 def exact_solution(rr):
