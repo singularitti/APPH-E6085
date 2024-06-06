@@ -17,6 +17,8 @@ __all__ = [
     "exact_solution",
 ]
 
+FOUR_PI = 4 * np.pi
+
 
 def basis(𝛂):
     @np.vectorize
@@ -44,7 +46,7 @@ def hamiltonian_integrand(r: float, αᵢ: float, αⱼ: float) -> float:
     Returns:
         float: The computed value of the integrand.
     """
-    return 4 * np.pi * r * (3 * αⱼ * r - 2 * αⱼ**2 * r**3 - 1) * np.exp(-(αᵢ + αⱼ) * r**2)
+    return FOUR_PI * r * (3 * αⱼ * r - 2 * αⱼ**2 * r**3 - 1) * np.exp(-(αᵢ + αⱼ) * r**2)
 
 
 @np.vectorize
@@ -70,7 +72,7 @@ def overlap_integrand(r: float, αᵢ: float, αⱼ: float) -> float:
     Returns:
         float: The computed value of the integrand.
     """
-    return 4 * np.pi * r**2 * np.exp(-(αᵢ + αⱼ) * r**2)
+    return FOUR_PI * r**2 * np.exp(-(αᵢ + αⱼ) * r**2)
 
 
 @np.vectorize
