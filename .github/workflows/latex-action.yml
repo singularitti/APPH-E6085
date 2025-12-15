@@ -19,7 +19,7 @@ jobs:
           latexmk_shell_escape: true
           extra_system_packages: "py-pygments"
       - name: Upload PDF file
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: PDF
           path: main.pdf
